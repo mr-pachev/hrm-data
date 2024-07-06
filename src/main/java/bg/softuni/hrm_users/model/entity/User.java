@@ -1,4 +1,4 @@
-package bg.softuni.hrm_users.model.entiry;
+package bg.softuni.hrm_users.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
