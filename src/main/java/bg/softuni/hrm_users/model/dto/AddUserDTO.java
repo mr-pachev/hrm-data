@@ -5,17 +5,15 @@ import jakarta.validation.constraints.Size;
 
 public class AddUserDTO {
     private long userId;
-    @Size(min = 10, max = 10)
+
     private String identificationNumber;
-    @NotBlank
-    @Size(min = 3, max = 15)
+
     private String username;
-    @NotBlank
-    @Size(min = 4, max = 10)
+
     private String password;
-    @NotBlank
+
     private String confirmPassword;
-    @NotBlank
+
     private String role;
     public long getUserId() {
         return userId;
