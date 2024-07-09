@@ -12,7 +12,7 @@ public class Role extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private RoleName roleName;
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "role")
     private List<User> users;
 
     public Role() {
