@@ -26,6 +26,14 @@ public class UserController {
             return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/edith")
+    public ResponseEntity<UserDTO> edithUser(
+            @RequestBody UserDTO userDTO
+    ){
+        userService.edithUser(userDTO);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping()
     public ResponseEntity<List<UserDTO>> getAllUsers(){
         List<UserDTO> userDTOS = userService.getAllUsers();

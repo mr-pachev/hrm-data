@@ -77,6 +77,13 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    @Override
+    public void edithUser(UserDTO userDTO) {
+        User user = reMapUser(userDTO);
+
+        userRepository.save(user);
+    }
+
     public static UserDTO map(User user){
        return new UserDTO(
                user.getId(),
@@ -85,5 +92,13 @@ public class UserServiceImpl implements UserService {
                user.getPassword(),
                user.getRole().getRoleName().name()
        );
+    }
+    public User reMapUser(UserDTO userDTO){
+        User user = userRepository.findByUsername(userDTO.getUsername()).get();
+
+        user.setUsername(userDTO.getUsername());
+        user.setRole(roleRepository.findByRoleName(RoleName.valueOf(userDTO.getRole())));
+
+        return user;
     }
 }
