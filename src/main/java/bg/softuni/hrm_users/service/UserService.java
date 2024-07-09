@@ -6,9 +6,10 @@ import bg.softuni.hrm_users.model.dto.UserDTO;
 import bg.softuni.hrm_users.model.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
-    boolean addUser(AddUserDTO addUserDTO);
+    void addUser(AddUserDTO addUserDTO);
     UserDTO getUserById(long id);
     void deleteUser(long id);
     List<UserDTO> getAllUsers();

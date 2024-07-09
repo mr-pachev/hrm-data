@@ -2,12 +2,13 @@ package bg.softuni.hrm_users.web;
 
 import bg.softuni.hrm_users.model.dto.AddUserDTO;
 import bg.softuni.hrm_users.model.dto.UserDTO;
+import bg.softuni.hrm_users.model.entity.User;
 import bg.softuni.hrm_users.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")

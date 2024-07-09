@@ -1,9 +1,5 @@
 package bg.softuni.hrm_users.model.dto;
 
-import bg.softuni.hrm_users.model.entity.Role;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 public class UserDTO {
     private long userId;
     private String identificationNumber;
