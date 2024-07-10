@@ -19,54 +19,33 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final ModelMapper mapper;
-    private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
     private final PositionRepository positionRepository;
     private final DepartmentRepository departmentRepository;
     private final EducationRepository educationRepository;
 
-    public EmployeeServiceImpl(ModelMapper mapper, PasswordEncoder passwordEncoder, EmployeeRepository employeeRepository, PositionRepository positionRepository, DepartmentRepository departmentRepository, EducationRepository educationRepository) {
+    public EmployeeServiceImpl(ModelMapper mapper, EmployeeRepository employeeRepository, PositionRepository positionRepository, DepartmentRepository departmentRepository, EducationRepository educationRepository) {
         this.mapper = mapper;
-        this.passwordEncoder = passwordEncoder;
         this.employeeRepository = employeeRepository;
         this.positionRepository = positionRepository;
         this.departmentRepository = departmentRepository;
         this.educationRepository = educationRepository;
     }
-
     @Override
-    public boolean addEmployee(AddEmployeeDTO addEmployeeDTO) {
-        Employee employee = mapper.map(addEmployeeDTO, Employee.class);
-        employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(addEmployeeDTO.getPosition())));
-        employee.setDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(addEmployeeDTO.getDepartment())));
-        employee.setEducation(educationRepository.findByEducationName(EducationName.valueOf(addEmployeeDTO.getEducation())));
-
-        Optional<Employee> isExistEmployee = employeeRepository.findAllByIdentificationNumber(addEmployeeDTO.getIdentificationNumber());
-
-        if (isExistEmployee.isPresent()) {
-            return false;
-        }
-
-        employeeRepository.save(employee);
-
-        return true;
+    public void addEmployee(EmployeeDTO employeeDTO) {
+        employeeRepository.save(map(employeeDTO));
     }
 
     @Override
     public List<EmployeeDTO> getAllEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
-
-        List<EmployeeDTO> allEmployees = new ArrayList<>();
-
-        for (Employee employee : employees) {
-            allEmployees.add(map(employee));
-        }
-
-        return allEmployees;
+        return employeeRepository.findAll().stream()
+                .map(this::mapToEmployeeDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -77,14 +56,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO getEmployeeByID(long id) {
         Employee employee = employeeRepository.findById(id);
-        return map(employee);
+        return mapToEmployeeDTO(employee);
     }
 
     @Override
     public EmployeeDTO getEmployeeByIdentificationNumber(String number) {
         Employee employee = employeeRepository.findByIdentificationNumber(number);
 
-        return map(employee);
+        return mapToEmployeeDTO(employee);
     }
 
     @Override
@@ -94,13 +73,32 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.save(employee);
     }
 
-    public EmployeeDTO map(Employee employee) {
+    public EmployeeDTO mapToEmployeeDTO(Employee employee) {
         EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
         employeeDTO.setPosition(employee.getPosition().getPositionName().name());
         employeeDTO.setDepartment(employee.getDepartment().getDepartmentName().name());
         employeeDTO.setEducation(employee.getEducation().getEducationName().name());
 
         return employeeDTO;
+    }
+
+    public Employee map(EmployeeDTO employeeDTO){
+        Employee employee = new Employee();
+
+        employee.setFirstName(employeeDTO.getFirstName());
+        employee.setMiddleName(employeeDTO.getMiddleName());
+        employee.setLastName(employeeDTO.getLastName());
+        employee.setIdentificationNumber(employeeDTO.getIdentificationNumber());
+        employee.setAge(employeeDTO.getAge());
+
+        LocalDate startDate = mapper.map(employeeDTO.getStartDate(), LocalDate.class);
+        employee.setStartDate(startDate);
+
+        employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(employeeDTO.getPosition())));
+        employee.setDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(employeeDTO.getDepartment())));
+        employee.setEducation((educationRepository.findByEducationName(EducationName.valueOf(employeeDTO.getEducation()))));
+
+        return employee;
     }
 
     public Employee reMap(EmployeeDTO employeeDTO) {
