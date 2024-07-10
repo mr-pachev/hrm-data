@@ -61,6 +61,15 @@ public class EmployeeController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/edith")
+    public ResponseEntity<EmployeeDTO> edithEmployee(
+            @RequestBody EmployeeDTO employeeDTO
+    ){
+        employeeService.edithEmployee(employeeDTO);
+
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") long id){
         employeeService.removeEmployee(id);
@@ -68,5 +77,10 @@ public class EmployeeController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> findEmployeeById(@PathVariable("id") long id){
+
+        return ResponseEntity.ok(employeeService.getEmployeeByID(id));
+    }
 
 }

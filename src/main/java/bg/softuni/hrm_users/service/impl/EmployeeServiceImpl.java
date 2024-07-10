@@ -1,5 +1,5 @@
 package bg.softuni.hrm_users.service.impl;
-import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
+
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.enums.DepartmentName;
@@ -11,14 +11,10 @@ import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.PositionRepository;
 import bg.softuni.hrm_users.service.EmployeeService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
     @Override
     public void addEmployee(EmployeeDTO employeeDTO) {
-        employeeRepository.save(map(employeeDTO));
+        employeeRepository.save(mapToNewEmployee(employeeDTO));
     }
 
     @Override
@@ -60,17 +56,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO getEmployeeByIdentificationNumber(String number) {
-        Employee employee = employeeRepository.findByIdentificationNumber(number);
-
-        return mapToEmployeeDTO(employee);
-    }
-
-    @Override
     public void edithEmployee(EmployeeDTO employeeDTO) {
-        Employee employee = reMap(employeeDTO);
 
-        employeeRepository.save(employee);
+        employeeRepository.save(mapToExistEmployee(employeeDTO));
     }
 
     public EmployeeDTO mapToEmployeeDTO(Employee employee) {
@@ -82,8 +70,27 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDTO;
     }
 
-    public Employee map(EmployeeDTO employeeDTO){
+    public Employee mapToNewEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
+
+        employee.setFirstName(employeeDTO.getFirstName());
+        employee.setMiddleName(employeeDTO.getMiddleName());
+        employee.setLastName(employeeDTO.getLastName());
+        employee.setIdentificationNumber(employeeDTO.getIdentificationNumber());
+        employee.setAge(employeeDTO.getAge());
+
+        LocalDate startDate = mapper.map(employeeDTO.getStartDate(), LocalDate.class);
+        employee.setStartDate(startDate);
+
+        employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(employeeDTO.getPosition())));
+        employee.setDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(employeeDTO.getDepartment())));
+        employee.setEducation((educationRepository.findByEducationName(EducationName.valueOf(employeeDTO.getEducation()))));
+
+        return employee;
+    }
+
+    public Employee mapToExistEmployee(EmployeeDTO employeeDTO){
+        Employee employee = employeeRepository.findByIdentificationNumber(employeeDTO.getIdentificationNumber());
 
         employee.setFirstName(employeeDTO.getFirstName());
         employee.setMiddleName(employeeDTO.getMiddleName());
