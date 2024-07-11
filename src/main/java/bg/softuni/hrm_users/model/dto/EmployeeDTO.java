@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class EmployeeDTO {
-    private long id;
+    private Long id;
 
     @NotBlank
     @Size(min = 3, max = 10)
@@ -32,11 +32,11 @@ public class EmployeeDTO {
 
     private String education;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

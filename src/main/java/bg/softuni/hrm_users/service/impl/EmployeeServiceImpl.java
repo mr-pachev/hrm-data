@@ -1,5 +1,6 @@
 package bg.softuni.hrm_users.service.impl;
 
+import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.enums.DepartmentName;
@@ -10,11 +11,14 @@ import bg.softuni.hrm_users.repository.EducationRepository;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.PositionRepository;
 import bg.softuni.hrm_users.service.EmployeeService;
+import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
+import com.sun.jdi.ObjectCollectedException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,8 +37,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.educationRepository = educationRepository;
     }
     @Override
-    public void addEmployee(EmployeeDTO employeeDTO) {
-        employeeRepository.save(mapToNewEmployee(employeeDTO));
+    public EmployeeDTO addEmployee(AddEmployeeDTO addEmployeeDTO) {
+        Employee employee = employeeRepository.save(mapToNewEmployee(addEmployeeDTO));
+      return reMap(employee);
     }
 
     @Override
@@ -51,7 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO getEmployeeByID(long id) {
-        Employee employee = employeeRepository.findById(id);
+        Employee employee = employeeRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+
         return mapToEmployeeDTO(employee);
     }
 
@@ -70,26 +76,26 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDTO;
     }
 
-    public Employee mapToNewEmployee(EmployeeDTO employeeDTO){
+    private Employee mapToNewEmployee(AddEmployeeDTO addEmployeeDTO){
         Employee employee = new Employee();
 
-        employee.setFirstName(employeeDTO.getFirstName());
-        employee.setMiddleName(employeeDTO.getMiddleName());
-        employee.setLastName(employeeDTO.getLastName());
-        employee.setIdentificationNumber(employeeDTO.getIdentificationNumber());
-        employee.setAge(employeeDTO.getAge());
+        employee.setFirstName(addEmployeeDTO.getFirstName());
+        employee.setMiddleName(addEmployeeDTO.getMiddleName());
+        employee.setLastName(addEmployeeDTO.getLastName());
+        employee.setIdentificationNumber(addEmployeeDTO.getIdentificationNumber());
+        employee.setAge(addEmployeeDTO.getAge());
 
-        LocalDate startDate = mapper.map(employeeDTO.getStartDate(), LocalDate.class);
+        LocalDate startDate = mapper.map(addEmployeeDTO.getStartDate(), LocalDate.class);
         employee.setStartDate(startDate);
 
-        employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(employeeDTO.getPosition())));
-        employee.setDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(employeeDTO.getDepartment())));
-        employee.setEducation((educationRepository.findByEducationName(EducationName.valueOf(employeeDTO.getEducation()))));
+        employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(addEmployeeDTO.getPosition())));
+        employee.setDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(addEmployeeDTO.getDepartment())));
+        employee.setEducation((educationRepository.findByEducationName(EducationName.valueOf(addEmployeeDTO.getEducation()))));
 
         return employee;
     }
 
-    public Employee mapToExistEmployee(EmployeeDTO employeeDTO){
+    private Employee mapToExistEmployee(EmployeeDTO employeeDTO){
         Employee employee = employeeRepository.findByIdentificationNumber(employeeDTO.getIdentificationNumber());
 
         employee.setFirstName(employeeDTO.getFirstName());
@@ -108,26 +114,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
-    public Employee reMap(EmployeeDTO employeeDTO) {
-        Employee employee = employeeRepository.findByIdentificationNumber(employeeDTO.getIdentificationNumber());
+    private EmployeeDTO reMap(Employee employee) {
+        EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
 
-        employee.setFirstName(employeeDTO.getFirstName());
-        employee.setMiddleName(employeeDTO.getMiddleName());
-        employee.setLastName(employeeDTO.getLastName());
-        employee.setAge(employeeDTO.getAge());
+        employeeDTO.setPosition(employee.getPosition().getPositionName().name());
+        employeeDTO.setDepartment(employee.getDepartment().getDepartmentName().name());
+        employeeDTO.setEducation(employee.getEducation().getEducationName().name());
 
-        LocalDate startDate = mapper.map(employeeDTO.getStartDate(), LocalDate.class);
-        employee.setStartDate(startDate);
-
-        if (!employeeDTO.getEndDate().isEmpty()) {
-            LocalDate endDate = mapper.map(employeeDTO.getEndDate(), LocalDate.class);
-            employee.setEndDate(endDate);
-        }
-
-        employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(employeeDTO.getPosition())));
-        employee.setDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(employeeDTO.getDepartment())));
-        employee.setEducation(educationRepository.findByEducationName(EducationName.valueOf(employeeDTO.getEducation())));
-
-        return employee;
+        return employeeDTO;
     }
 }

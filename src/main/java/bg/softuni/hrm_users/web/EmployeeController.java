@@ -1,5 +1,6 @@
 package bg.softuni.hrm_users.web;
 
+import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.service.DepartmentService;
 import bg.softuni.hrm_users.service.EducationService;
@@ -7,6 +8,7 @@ import bg.softuni.hrm_users.service.EmployeeService;
 import bg.softuni.hrm_users.service.PositionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -54,11 +56,18 @@ public class EmployeeController {
 
     @PostMapping()
     public ResponseEntity<EmployeeDTO> creatEmployee(
-            @RequestBody EmployeeDTO employeeDTO
-    ){
-        employeeService.addEmployee(employeeDTO);
+            @RequestBody AddEmployeeDTO addEmployeeDTO
+            ){
+       EmployeeDTO employeeDTO = employeeService.addEmployee(addEmployeeDTO);
 
-        return ResponseEntity.ok().build();
+      return   ResponseEntity.
+                created(
+                        ServletUriComponentsBuilder
+                                .fromCurrentRequest()
+                                .path("/{id}")
+                                .buildAndExpand(employeeDTO.getId())
+                                .toUri()
+                ).body(employeeDTO);
     }
 
     @PostMapping("/edith")

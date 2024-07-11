@@ -7,7 +7,7 @@ import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import java.util.List;
 
 public interface EmployeeService {
-    void addEmployee(EmployeeDTO employeeDTO);
+    EmployeeDTO addEmployee(AddEmployeeDTO addEmployeeDTO);
     List<EmployeeDTO> getAllEmployees();
     void removeEmployee(long id);
     EmployeeDTO getEmployeeByID(long id);
