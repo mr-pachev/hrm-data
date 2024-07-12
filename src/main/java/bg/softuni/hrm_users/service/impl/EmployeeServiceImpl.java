@@ -60,7 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void edithEmployee(EmployeeDTO employeeDTO) {
+    public void editEmployee(EmployeeDTO employeeDTO) {
 
         employeeRepository.save(mapToExistEmployee(employeeDTO));
     }

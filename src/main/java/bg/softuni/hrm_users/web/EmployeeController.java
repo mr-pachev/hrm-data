@@ -70,11 +70,11 @@ public class EmployeeController {
                 ).body(employeeDTO);
     }
 
-    @PostMapping("/edith")
-    public ResponseEntity<EmployeeDTO> edithEmployee(
+    @PostMapping("/edit")
+    public ResponseEntity<EmployeeDTO> editEmployee(
             @RequestBody EmployeeDTO employeeDTO
     ){
-        employeeService.edithEmployee(employeeDTO);
+        employeeService.editEmployee(employeeDTO);
 
         return ResponseEntity.ok().build();
     }
