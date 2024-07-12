@@ -12,13 +12,11 @@ import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.PositionRepository;
 import bg.softuni.hrm_users.service.EmployeeService;
 import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
-import com.sun.jdi.ObjectCollectedException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

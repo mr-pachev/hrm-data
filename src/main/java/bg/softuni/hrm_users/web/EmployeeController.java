@@ -83,7 +83,9 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") long id){
         employeeService.removeEmployee(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
     @GetMapping("/{id}")
