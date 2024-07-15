@@ -15,7 +15,7 @@ public class Employee extends BaseEntity{
     @NotBlank
     private String middleName;
     @NotBlank
-    private String LastName;
+    private String lastName;
     @NotBlank
     @Column(unique = true)
     private String identificationNumber;
@@ -30,7 +30,6 @@ public class Employee extends BaseEntity{
     private Position position;
 
     @ManyToOne
-    @JoinColumn(name = "department_id")
     private Department department;
 
     @ManyToOne
@@ -63,11 +62,11 @@ public class Employee extends BaseEntity{
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getIdentificationNumber() {

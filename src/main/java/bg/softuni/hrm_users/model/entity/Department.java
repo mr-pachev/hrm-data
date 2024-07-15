@@ -15,8 +15,7 @@ public class Department extends BaseEntity{
     @NotBlank
     private String descriptions;
 
-    @OneToOne
-    @JoinColumn(name = "manager_id")
+    @ManyToOne
     private Employee manager;
 
     @OneToMany(mappedBy = "department")
