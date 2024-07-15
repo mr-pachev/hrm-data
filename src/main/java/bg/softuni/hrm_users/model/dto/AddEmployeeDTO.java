@@ -6,13 +6,13 @@ import jakarta.validation.constraints.Size;
 
 public class AddEmployeeDTO {
     @NotBlank
-    @Size(min = 3, max = 10)
+    @Size(min = 3, max = 15)
     private String firstName;
     @NotBlank
-    @Size(min = 3, max = 10)
+    @Size(min = 3, max = 15)
     private String middleName;
     @NotBlank
-    @Size(min = 3, max = 10)
+    @Size(min = 3, max = 15)
     private String lastName;
     @Size(min = 10, max = 10)
     private String identificationNumber;

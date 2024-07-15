@@ -5,6 +5,7 @@ import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.service.DepartmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +26,11 @@ public class DepartmentController {
         List<DepartmentDTO> departmentDTOS = departmentService.getAllDepartmentsInDTOS();
 
         return ResponseEntity.ok(departmentDTOS);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DepartmentDTO> findEmployeeById(@PathVariable("id") long id){
+
+        return ResponseEntity.ok(departmentService.getDepartmentByID(id));
     }
 }

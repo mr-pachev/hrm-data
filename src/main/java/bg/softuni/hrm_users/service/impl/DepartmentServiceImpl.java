@@ -7,6 +7,8 @@ import bg.softuni.hrm_users.repository.DepartmentRepository;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.ProjectRepository;
 import bg.softuni.hrm_users.service.DepartmentService;
+import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ import java.util.stream.Collectors;
 public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final EmployeeRepository employeeRepository;
-
     private final ProjectRepository projectRepository;
 
     public DepartmentServiceImpl(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository, ProjectRepository projectRepository) {
@@ -46,6 +47,15 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentDTOS;
     }
 
+    @Override
+    public DepartmentDTO getDepartmentByID(long id) {
+        Department department = departmentRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+
+        DepartmentDTO departmentDTO = mapToDepartmentDTO(department);
+
+        return departmentDTO;
+    }
+
     private DepartmentDTO mapToDepartmentDTO(Department department){
         DepartmentDTO departmentDTO = new DepartmentDTO();
 
@@ -57,6 +67,8 @@ public class DepartmentServiceImpl implements DepartmentService {
                 department.getManager().getMiddleName() + " " +
                 department.getManager().getLastName();
 
+        departmentDTO.setId(department.getId());
+        departmentDTO.setDescriptions(department.getDescriptions());
         departmentDTO.setManager(managerName);
 
         departmentDTO.setEmployees(department.getEmployees().stream()
@@ -69,5 +81,4 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         return departmentDTO;
     }
-
 }

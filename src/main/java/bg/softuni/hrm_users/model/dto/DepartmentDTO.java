@@ -1,16 +1,33 @@
 package bg.softuni.hrm_users.model.dto;
 
-import bg.softuni.hrm_users.model.entity.Employee;
-import bg.softuni.hrm_users.model.entity.Project;
-import bg.softuni.hrm_users.model.enums.DepartmentName;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
 public class DepartmentDTO {
+    private long id;
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String departmentName;
+
+    @NotBlank
+    @Size(min = 9, max = 50)
     private String manager;
+
+    @NotBlank
+    @Size(min = 10, max = 255)
+    private String descriptions;
     private List<String> employees;
     private List<String>  projects;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getDepartmentName() {
         return departmentName;
@@ -42,5 +59,13 @@ public class DepartmentDTO {
 
     public void setProjects(List<String> projects) {
         this.projects = projects;
+    }
+
+    public String getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(String descriptions) {
+        this.descriptions = descriptions;
     }
 }

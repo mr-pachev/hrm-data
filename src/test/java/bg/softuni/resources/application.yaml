@@ -1,6 +1,6 @@
 spring:
   application:
-    name: hrm-users
+    name: test_db
   jpa:
     defer-datasource-initialization: true
     properties:
