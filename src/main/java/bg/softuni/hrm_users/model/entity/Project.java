@@ -23,7 +23,7 @@ public class Project extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department responsibleDepartment;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "employees_projects",
             joinColumns = @JoinColumn(name = "employee_id"),
