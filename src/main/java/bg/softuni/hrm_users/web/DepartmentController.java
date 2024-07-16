@@ -40,4 +40,13 @@ public class DepartmentController {
 
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDepartment(@PathVariable("id") long id){
+        departmentService.removeDepartment(id);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
 }

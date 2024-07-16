@@ -98,5 +98,6 @@ public class InitService implements CommandLineRunner {
         descriptionDepartment.put(DepartmentName.IT_DEPARTMENT, "Manages the company’s technology infrastructure.");
         descriptionDepartment.put(DepartmentName.CUSTOMER_SUPPORT_DEPARTMENT, "Provides assistance and support to the company’s customers.");
         descriptionDepartment.put(DepartmentName.MAINTENANCE_DEPARTMENT, "Ensures that the company's physical environment is clean, safe, and functional. This includes cleaning, repair work, and general upkeep of the company's facilities.");
+        descriptionDepartment.put(DepartmentName.DEFAULT_DEPARTMENT, "Consists of employees with an unspecified department.");
     }
 }

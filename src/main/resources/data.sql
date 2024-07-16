@@ -30,6 +30,7 @@ UPDATE departments SET manager_id = 16 WHERE id = 6; -- MARKETING_DEPARTMENT
 UPDATE departments SET manager_id = 14 WHERE id = 7; -- IT_DEPARTMENT
 UPDATE departments SET manager_id = 7 WHERE id = 8; -- CUSTOMER_SUPPORT
 UPDATE departments SET manager_id = 10 WHERE id = 9; -- MAINTENANCE_DEPARTMENT
+UPDATE departments SET manager_id = 1 WHERE id = 10; -- DEFAULT_DEPARTMENT
 
 -- Insert projects --
 INSERT INTO projects (description, end_data, name, start_date, department_id) VALUES

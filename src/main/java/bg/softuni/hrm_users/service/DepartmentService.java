@@ -11,4 +11,5 @@ public interface DepartmentService {
     List<DepartmentDTO> getAllDepartmentsInDTOS();
     DepartmentDTO getDepartmentByID(long id);
     void editDepartment(AddDepartmentDTO addDepartmentDTO);
+    void removeDepartment(long id);
 }

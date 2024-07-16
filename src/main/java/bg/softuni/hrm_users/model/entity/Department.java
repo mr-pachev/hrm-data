@@ -18,10 +18,10 @@ public class Department extends BaseEntity{
     @ManyToOne
     private Employee manager;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
     private List<Employee> employees;
 
-    @OneToMany(mappedBy = "responsibleDepartment")
+    @OneToMany(mappedBy = "responsibleDepartment", fetch = FetchType.EAGER)
     private List<Project>  projects;
 
     public Department() {

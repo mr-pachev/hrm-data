@@ -80,7 +80,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id){
+    public ResponseEntity<Void> deleteEmployee(@PathVariable("id") long id){
         employeeService.removeEmployee(id);
 
         return ResponseEntity

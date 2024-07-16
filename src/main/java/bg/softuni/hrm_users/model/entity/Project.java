@@ -3,6 +3,7 @@ package bg.softuni.hrm_users.model.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,9 +16,9 @@ public class Project extends BaseEntity{
     @NotBlank
     @Column(columnDefinition = "TEXT")
     private String description;
-    @NotEmpty
+    @NotNull
     private LocalDate startDate;
-    @NotEmpty
+    @NotNull
     private LocalDate endData;
     @ManyToOne
     @JoinColumn(name = "department_id")
