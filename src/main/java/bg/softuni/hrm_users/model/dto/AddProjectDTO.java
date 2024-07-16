@@ -3,7 +3,7 @@ package bg.softuni.hrm_users.model.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class AddProject {
+public class AddProjectDTO {
     @NotBlank
     @Size(min = 3, max = 30)
     private String name;
@@ -11,7 +11,6 @@ public class AddProject {
     @NotBlank
     @Size(min = 10, max = 255)
     private String description;
-
 
     @NotBlank
     private String startDate;
