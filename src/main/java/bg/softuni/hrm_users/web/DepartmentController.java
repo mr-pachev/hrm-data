@@ -1,13 +1,10 @@
 package bg.softuni.hrm_users.web;
 
 import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
-import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.DepartmentDTO;
-import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.service.DepartmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
