@@ -1,6 +1,7 @@
 package bg.softuni.hrm_users.service;
 
 import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
+import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.DepartmentDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 
