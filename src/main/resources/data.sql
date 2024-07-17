@@ -52,3 +52,49 @@ INSERT INTO projects (description, end_data, name, start_date, department_id) VA
                                                                                   ('Customer Service Training', '2024-11-30', 'Service Improvement Training', '2024-07-01', 8),
                                                                                   ('Office Renovation', '2024-06-30', 'Renovation Project', '2024-01-01', 9),
                                                                                   ('Equipment Maintenance', '2024-12-31', 'Regular Maintenance', '2024-04-01', 9);
+
+-- Insert data employees_projects --
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (4, 4);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (5, 5);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (8, 7);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (11, 9);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (13, 10);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (15, 11);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (16, 12);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (2, 13);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (6, 14);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (10, 14);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (14, 13);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (17, 13);
+
+INSERT INTO employees_projects (employee_id, project_id)
+VALUES (18, 14);
+
+
+
+
+
+
