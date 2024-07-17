@@ -20,16 +20,11 @@ public class Project extends BaseEntity{
     private LocalDate startDate;
     @NotNull
     private LocalDate endData;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id")
     private Department responsibleDepartment;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "employees_projects",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "project_id")
-    )
-    private List<Employee> employees;
+    @ManyToMany(mappedBy = "projects" ,fetch = FetchType.EAGER)
+       private List<Employee> employees;
 
     public String getName() {
         return name;

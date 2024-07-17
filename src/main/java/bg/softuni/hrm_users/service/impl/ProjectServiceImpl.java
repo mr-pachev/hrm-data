@@ -32,6 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         for (Project project : allProjects) {
             ProjectDTO projectDTO = new ProjectDTO();
+            List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(project.getId());
 
             projectDTO.setId(project.getId());
             projectDTO.setName(project.getName());
@@ -39,9 +40,9 @@ public class ProjectServiceImpl implements ProjectService {
             projectDTO.setStartDate(project.getStartDate().toString());
             projectDTO.setEndDate(project.getEndData().toString());
             projectDTO.setResponsibleDepartment(project.getResponsibleDepartment().getDepartmentName().name());
-           List<String> employees = new ArrayList<>();
 
-            for (Employee employee : project.getEmployees()) {
+            List<String> employees = new ArrayList<>();
+            for (Employee employee : projectEmployees) {
                 String employeeFullName = employee.getFirstName() + " " +
                                         employee.getMiddleName() + " " +
                                         employee.getLastName();
