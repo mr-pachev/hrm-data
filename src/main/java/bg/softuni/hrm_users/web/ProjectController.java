@@ -1,5 +1,6 @@
 package bg.softuni.hrm_users.web;
 
+import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
 import bg.softuni.hrm_users.service.ProjectService;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,12 @@ public class ProjectController {
         ProjectDTO projectDTO = projectService.getProjectById(id);
 
         return ResponseEntity.ok(projectDTO);
+    }
+
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<List<EmployeeDTO>> getAllProjectEmployees(@PathVariable("id") long id){
+        List<EmployeeDTO> employeeDTOS = projectService.allProjectEmployees(id);
+
+        return ResponseEntity.ok(employeeDTOS);
     }
 }
