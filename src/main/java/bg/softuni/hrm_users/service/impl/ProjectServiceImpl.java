@@ -4,6 +4,8 @@ import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Project;
+import bg.softuni.hrm_users.model.enums.DepartmentName;
+import bg.softuni.hrm_users.repository.DepartmentRepository;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.ProjectRepository;
 import bg.softuni.hrm_users.service.ProjectService;
@@ -11,19 +13,21 @@ import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
-
     private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
     private final ModelMapper mapper;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, EmployeeRepository employeeRepository, ModelMapper mapper) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, ModelMapper mapper) {
         this.projectRepository = projectRepository;
         this.employeeRepository = employeeRepository;
+        this.departmentRepository = departmentRepository;
         this.mapper = mapper;
     }
 
@@ -63,6 +67,12 @@ public class ProjectServiceImpl implements ProjectService {
         return mapToEmployeeDTOS(projectEmployees);
     }
 
+    @Override
+    public void editProject(ProjectDTO projectDTO) {
+    Project project = map(projectDTO);
+        projectRepository.save(project);
+    }
+
     private List<ProjectDTO> getProjectDTOS(List<Project> allProjects) {
         List<ProjectDTO> projectDTOS = new ArrayList<>();
 
@@ -97,6 +107,21 @@ public class ProjectServiceImpl implements ProjectService {
             employees.add(employeeFullName);
         }
         return employees;
+    }
+
+    private Project map(ProjectDTO projectDTO){
+        Project project = projectRepository.findById(projectDTO.getId()).orElseThrow(ObjectNotFoundException::new);
+
+        project.setName(projectDTO.getName());
+        project.setDescription(project.getDescription());
+        LocalDate startDate = mapper.map(projectDTO.getStartDate(), LocalDate.class);
+        project.setStartDate(startDate);
+        LocalDate endDate = mapper.map(projectDTO.getEndDate(), LocalDate.class);
+        project.setEndData(endDate);
+
+        project.setResponsibleDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(projectDTO.getResponsibleDepartment())));
+
+        return project;
     }
 
     private List<EmployeeDTO> mapToEmployeeDTOS(List<Employee> employees) {

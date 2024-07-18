@@ -1,5 +1,6 @@
 package bg.softuni.hrm_users.service;
 
+import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
 import bg.softuni.hrm_users.model.dto.DepartmentDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
@@ -11,4 +12,5 @@ public interface ProjectService {
     ProjectDTO getProjectById(long id);
     void removeEmployee(long idEm, long idPr);
     List<EmployeeDTO> allProjectEmployees(long id);
+    void editProject(ProjectDTO projectDTO);
 }

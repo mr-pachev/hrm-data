@@ -1,5 +1,6 @@
 package bg.softuni.hrm_users.web;
 
+import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
 import bg.softuni.hrm_users.service.ProjectService;
@@ -37,6 +38,15 @@ public class ProjectController {
         List<EmployeeDTO> employeeDTOS = projectService.allProjectEmployees(id);
 
         return ResponseEntity.ok(employeeDTOS);
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<ProjectDTO> editProject(
+            @RequestBody ProjectDTO projectDTO
+    ){
+        projectService.editProject(projectDTO);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/employee{idEm}/{idPr}")
