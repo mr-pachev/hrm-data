@@ -1,10 +1,13 @@
 package bg.softuni.hrm_users.web;
 
+import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
+import bg.softuni.hrm_users.model.dto.AddProjectDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
 import bg.softuni.hrm_users.service.ProjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -38,6 +41,24 @@ public class ProjectController {
 
         return ResponseEntity.ok(employeeDTOS);
     }
+
+    @PostMapping()
+    public ResponseEntity<Void> createProject(
+            @RequestBody AddProjectDTO addProjectDTO
+    ){
+        projectService.creatProject(addProjectDTO);
+
+        return ResponseEntity
+                .created(
+                        ServletUriComponentsBuilder
+                                .fromCurrentRequest()
+                                .build()
+                                .toUri()
+                )
+                .build();
+    }
+
+
 
     @PostMapping("/edit")
     public ResponseEntity<ProjectDTO> editProject(

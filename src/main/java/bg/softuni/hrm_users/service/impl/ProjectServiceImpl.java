@@ -1,5 +1,6 @@
 package bg.softuni.hrm_users.service.impl;
 
+import bg.softuni.hrm_users.model.dto.AddProjectDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
@@ -29,6 +30,17 @@ public class ProjectServiceImpl implements ProjectService {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
         this.mapper = mapper;
+    }
+
+    @Override
+    public void creatProject(AddProjectDTO addProjectDTO) {
+        Project project = mapper.map(addProjectDTO, Project.class);
+
+        LocalDate endDate = mapper.map(addProjectDTO.getEndDate(), LocalDate.class);
+        project.setEndData(endDate);
+        project.setResponsibleDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(addProjectDTO.getResponsibleDepartment())));
+
+        projectRepository.save(project);
     }
 
     @Override
