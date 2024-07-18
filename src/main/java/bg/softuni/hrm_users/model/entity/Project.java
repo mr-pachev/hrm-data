@@ -23,7 +23,7 @@ public class Project extends BaseEntity{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id")
     private Department responsibleDepartment;
-    @ManyToMany(mappedBy = "projects" ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
        private List<Employee> employees;
 
     public String getName() {

@@ -4,10 +4,7 @@ import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
 import bg.softuni.hrm_users.service.ProjectService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,5 +37,14 @@ public class ProjectController {
         List<EmployeeDTO> employeeDTOS = projectService.allProjectEmployees(id);
 
         return ResponseEntity.ok(employeeDTOS);
+    }
+
+    @DeleteMapping("/employee{idEm}/{idPr}")
+    public ResponseEntity<Void> deleteDepartment(@PathVariable("idEm") Long idEm, @PathVariable("idPr")Long idPr){
+        projectService.removeEmployee(idEm, idPr);
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }

@@ -4,6 +4,7 @@ import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Project;
+import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.ProjectRepository;
 import bg.softuni.hrm_users.service.ProjectService;
 import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
@@ -16,10 +17,13 @@ import java.util.List;
 @Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
+
+    private final EmployeeRepository employeeRepository;
     private final ModelMapper mapper;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, ModelMapper mapper) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, EmployeeRepository employeeRepository, ModelMapper mapper) {
         this.projectRepository = projectRepository;
+        this.employeeRepository = employeeRepository;
         this.mapper = mapper;
     }
 
@@ -38,6 +42,18 @@ public class ProjectServiceImpl implements ProjectService {
         projectDTO.setResponsibleDepartment(project.getResponsibleDepartment().getDepartmentName().name());
 
         return projectDTO;
+    }
+
+    @Override
+    public void removeEmployee(long idEm, long idPr) {
+        Project project = projectRepository.findById(idPr).orElseThrow(ObjectNotFoundException::new);
+        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
+
+        project.getEmployees().remove(currentEmployee);
+        currentEmployee.setProject(null);
+
+        projectRepository.save(project);
+        employeeRepository.save(currentEmployee);
     }
 
     @Override
@@ -83,7 +99,7 @@ public class ProjectServiceImpl implements ProjectService {
         return employees;
     }
 
-    private List<EmployeeDTO> mapToEmployeeDTOS(List<Employee> employees){
+    private List<EmployeeDTO> mapToEmployeeDTOS(List<Employee> employees) {
         List<EmployeeDTO> employeeDTOS = new ArrayList<>();
         for (Employee employee : employees) {
             EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
