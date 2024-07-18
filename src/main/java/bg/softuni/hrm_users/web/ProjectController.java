@@ -1,6 +1,5 @@
 package bg.softuni.hrm_users.web;
 
-import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
 import bg.softuni.hrm_users.service.ProjectService;
@@ -52,6 +51,15 @@ public class ProjectController {
     @DeleteMapping("/employee{idEm}/{idPr}")
     public ResponseEntity<Void> deleteDepartment(@PathVariable("idEm") Long idEm, @PathVariable("idPr")Long idPr){
         projectService.removeEmployee(idEm, idPr);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDepartment(@PathVariable("id") Long id){
+        projectService.removeProject(id);
 
         return ResponseEntity
                 .noContent()

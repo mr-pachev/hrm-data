@@ -61,6 +61,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void removeProject(long id) {
+        List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
+        Project defaultProject = projectRepository.findById(1).orElseThrow(ObjectNotFoundException::new);
+
+        for (Employee employee : projectEmployees) {
+            employee.setProject(defaultProject);
+        }
+
+        projectRepository.deleteById(id);
+    }
+
+    @Override
     public List<EmployeeDTO> allProjectEmployees(long id) {
         List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
 

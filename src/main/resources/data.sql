@@ -1,5 +1,6 @@
 -- Insert projects --
 INSERT INTO projects (description, end_data, name, start_date, department_id) VALUES
+                                                                                  ('DEFAULT_PROJECT', '2030-12-31', 'Used when a project is deleted.', '2024-08-11', 10),
                                                                                   ('Strategic Planning for FY2025', '2024-12-31', 'FY2025 Planning', '2024-01-01', 1),
                                                                                   ('Leadership Training Program', '2024-06-30', 'Leadership Training', '2024-03-01', 1),
                                                                                   ('Annual Financial Report', '2024-03-31', 'Financial Report 2023', '2024-01-01', 2),
