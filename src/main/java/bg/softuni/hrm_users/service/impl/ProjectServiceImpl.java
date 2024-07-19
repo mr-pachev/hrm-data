@@ -118,6 +118,22 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);
     }
 
+    @Override
+    public void addEmployee(ProjectEmployeeDTO projectEmployeeDTO, long idPr) {
+        Project project = projectRepository.findById(idPr).orElseThrow(ObjectNotFoundException::new);
+
+        String firstName = projectEmployeeDTO.getFullName().split(" ")[0];
+        String middleName = projectEmployeeDTO.getFullName().split(" ")[1];
+        String lastName = projectEmployeeDTO.getFullName().split(" ")[2];
+        Employee employee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
+
+        employee.setProject(project);
+        employeeRepository.save(employee);
+
+        project.getEmployees().add(employee);
+        projectRepository.save(project);
+    }
+
     private List<ProjectDTO> getProjectDTOS(List<Project> allProjects) {
         List<ProjectDTO> projectDTOS = new ArrayList<>();
 

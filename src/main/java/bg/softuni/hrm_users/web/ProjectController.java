@@ -73,6 +73,22 @@ public class ProjectController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/add-employee/{idPr}")
+    public ResponseEntity<Void> addEmployee(@PathVariable("idPr") Long idPr,
+                                            @RequestBody ProjectEmployeeDTO projectEmployeeDTO
+    ){
+        projectService.addEmployee(projectEmployeeDTO, idPr);
+
+        return ResponseEntity
+                .created(
+                        ServletUriComponentsBuilder
+                                .fromCurrentRequest()
+                                .build()
+                                .toUri()
+                )
+                .build();
+    }
+
     @DeleteMapping("/employee{idEm}/{idPr}")
     public ResponseEntity<Void> deleteDepartment(@PathVariable("idEm") Long idEm, @PathVariable("idPr")Long idPr){
         projectService.removeEmployee(idEm, idPr);
