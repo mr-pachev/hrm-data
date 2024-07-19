@@ -3,6 +3,7 @@ package bg.softuni.hrm_users.service.impl;
 import bg.softuni.hrm_users.model.dto.AddProjectDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.ProjectDTO;
+import bg.softuni.hrm_users.model.dto.ProjectEmployeeDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Project;
 import bg.softuni.hrm_users.model.enums.DepartmentName;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -89,6 +91,25 @@ public class ProjectServiceImpl implements ProjectService {
         List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
 
         return mapToEmployeeDTOS(projectEmployees);
+    }
+
+    @Override
+    public List<ProjectEmployeeDTO> allEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+
+        List<ProjectEmployeeDTO> projectEmployeeDTOS = new ArrayList<>();
+        for (Employee employee : employees) {
+            String fullName = employee.getFirstName() + " " +
+                    employee.getMiddleName()  + " " +
+                    employee.getLastName();
+            ProjectEmployeeDTO projectEmployeeDTO = new ProjectEmployeeDTO();
+            projectEmployeeDTO.setId(employee.getId());
+            projectEmployeeDTO.setFullName(fullName);
+
+            projectEmployeeDTOS.add(projectEmployeeDTO);
+        }
+
+        return projectEmployeeDTOS;
     }
 
     @Override
