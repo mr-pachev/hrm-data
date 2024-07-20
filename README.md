@@ -1,5 +1,5 @@
 # HRM-Users - Rest Server
-https://github.com/mr-pachev/human-resource-managements.git
+For the purposes of this demo, the project runs as a REST server, communicating via REST requests with [ (https://github.com/mr-pachev/human-resource-managements.git) ], which runs as a REST client.
 
 Rest Server -> containing the database and the business logic of the application.
 For more effective presentation and easier testing of the application, a data.sql file has been added to the project, which loads the database with basic information about employees, positions, departments, and projects. Additionally, an init file has been created for loading with descriptions of positions and departments.
