@@ -24,11 +24,7 @@ public class Project extends BaseEntity{
     @JoinColumn(name = "department_id")
     private Department responsibleDepartment;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "employees_projects",
-            joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id")
-    )
+    @ManyToMany(mappedBy = "projects", fetch = FetchType.EAGER)
     private List<Employee> employees;
 
     public String getName() {

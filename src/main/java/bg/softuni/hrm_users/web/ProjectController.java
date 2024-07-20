@@ -62,8 +62,6 @@ public class ProjectController {
                 .build();
     }
 
-
-
     @PostMapping("/edit")
     public ResponseEntity<ProjectDTO> editProject(
             @RequestBody ProjectDTO projectDTO
