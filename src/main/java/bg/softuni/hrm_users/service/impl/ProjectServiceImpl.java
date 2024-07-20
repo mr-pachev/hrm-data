@@ -14,6 +14,7 @@ import bg.softuni.hrm_users.service.ProjectService;
 import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -63,12 +64,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public void removeEmployee(long idEm, long idPr) {
         Project project = projectRepository.findById(idPr).orElseThrow(ObjectNotFoundException::new);
         Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
 
-        project.getEmployees().remove(currentEmployee);
-        currentEmployee.getProjects().remove(project);
+        project.removeEmployee(currentEmployee);
 
         projectRepository.save(project);
         employeeRepository.save(currentEmployee);
@@ -127,7 +128,7 @@ public class ProjectServiceImpl implements ProjectService {
         String lastName = projectEmployeeDTO.getFullName().split(" ")[2];
         Employee employee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
 
-        List<Project> employeeProjects = employeeRepository.findProjectsByEmployeeId(employee.getId());
+        List<Project> employeeProjects = employee.getProjects();
         employeeProjects.add(project);
         employee.setProjects(employeeProjects);
         employeeRepository.save(employee);

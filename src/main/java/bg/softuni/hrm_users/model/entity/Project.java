@@ -27,6 +27,11 @@ public class Project extends BaseEntity{
     @ManyToMany(mappedBy = "projects", fetch = FetchType.EAGER)
     private List<Employee> employees;
 
+    public void removeEmployee(Employee employee) {
+        this.employees.remove(employee);
+        employee.getProjects().remove(this);
+    }
+
     public String getName() {
         return name;
     }

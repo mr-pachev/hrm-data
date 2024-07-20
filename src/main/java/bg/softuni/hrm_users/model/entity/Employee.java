@@ -36,7 +36,7 @@ public class Employee extends BaseEntity{
     @JoinColumn(name = "education_id")
     private Education education;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "employees_projects",
             joinColumns = @JoinColumn(name = "employee_id", 			referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "project_id", 		referencedColumnName = "id")
@@ -45,6 +45,11 @@ public class Employee extends BaseEntity{
 
     @OneToMany(mappedBy = "employee")
     private List<Task> tasks;
+
+    public void removeProject(Project project) {
+        this.projects.remove(project);
+        project.getEmployees().remove(this);
+    }
 
     public String getFirstName() {
         return firstName;
