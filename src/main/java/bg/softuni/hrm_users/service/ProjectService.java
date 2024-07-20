@@ -14,6 +14,5 @@ public interface ProjectService {
     List<EmployeeDTO> allProjectEmployees(long id);
     List<ProjectEmployeeDTO> allEmployees();
     void editProject(ProjectDTO projectDTO);
-
     void addEmployee(ProjectEmployeeDTO projectEmployeeDTO, long idPr);
 }

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +34,18 @@ public class ProjectServiceImpl implements ProjectService {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
         this.mapper = mapper;
+    }
+
+    @Override
+    @Transactional
+    public void removeEmployee(long idEm, long idPr) {
+        Project project = projectRepository.findById(idPr).orElseThrow(ObjectNotFoundException::new);
+        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
+
+        project.removeEmployee(currentEmployee);
+
+        projectRepository.save(project);
+        employeeRepository.save(currentEmployee);
     }
 
     @Override
@@ -61,18 +74,6 @@ public class ProjectServiceImpl implements ProjectService {
         projectDTO.setResponsibleDepartment(project.getResponsibleDepartment().getDepartmentName().name());
 
         return projectDTO;
-    }
-
-    @Override
-    @Transactional
-    public void removeEmployee(long idEm, long idPr) {
-        Project project = projectRepository.findById(idPr).orElseThrow(ObjectNotFoundException::new);
-        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
-
-        project.removeEmployee(currentEmployee);
-
-        projectRepository.save(project);
-        employeeRepository.save(currentEmployee);
     }
 
     @Override
@@ -129,6 +130,13 @@ public class ProjectServiceImpl implements ProjectService {
         Employee employee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
 
         List<Project> employeeProjects = employee.getProjects();
+
+        for (Project employeeProject : employeeProjects) {
+            if(Objects.equals(employeeProject.getId(), project.getId())){
+                return;
+            }
+        }
+
         employeeProjects.add(project);
         employee.setProjects(employeeProjects);
         employeeRepository.save(employee);
