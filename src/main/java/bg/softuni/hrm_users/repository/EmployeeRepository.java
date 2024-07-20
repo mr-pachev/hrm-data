@@ -18,4 +18,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findAllByDepartment(Department department);
     Employee findByDepartment(Department department);
     Optional<Employee> findByFirstNameAndMiddleNameAndLastName(String firstName, String middleName, String lastName);
+    @Query("SELECT e.projects FROM Employee e WHERE e.id = :employeeId")
+    List<Project> findProjectsByEmployeeId(@Param("employeeId") Long employeeId);
 }

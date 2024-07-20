@@ -127,10 +127,14 @@ public class ProjectServiceImpl implements ProjectService {
         String lastName = projectEmployeeDTO.getFullName().split(" ")[2];
         Employee employee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
 
-        employee.getProjects().add(project);
+        List<Project> employeeProjects = employeeRepository.findProjectsByEmployeeId(employee.getId());
+        employeeProjects.add(project);
+        employee.setProjects(employeeProjects);
         employeeRepository.save(employee);
 
-        project.getEmployees().add(employee);
+        List<Employee> employees = project.getEmployees();
+        employees.add(employee);
+        project.setEmployees(employees);
         projectRepository.save(project);
     }
 
