@@ -23,8 +23,13 @@ public class Project extends BaseEntity{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id")
     private Department responsibleDepartment;
-    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
-       private List<Employee> employees;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "employees_projects",
+            joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id")
+    )
+    private List<Employee> employees;
 
     public String getName() {
         return name;

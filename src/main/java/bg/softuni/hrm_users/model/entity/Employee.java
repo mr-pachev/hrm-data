@@ -36,9 +36,12 @@ public class Employee extends BaseEntity{
     @JoinColumn(name = "education_id")
     private Education education;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+    @ManyToMany
+    @JoinTable(name = "employees_projects",
+            joinColumns = @JoinColumn(name = "employee_id", 			referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id", 		referencedColumnName = "id")
+    )
+    List<Project> projects;
 
     @OneToMany(mappedBy = "employee")
     private List<Task> tasks;
@@ -115,12 +118,12 @@ public class Employee extends BaseEntity{
         this.department = department;
     }
 
-    public Project getProject() {
-        return project;
+    public List<Project> getProjects() {
+        return projects;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 
     public Education getEducation() {

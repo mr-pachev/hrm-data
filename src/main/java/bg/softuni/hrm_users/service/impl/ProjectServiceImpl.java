@@ -68,7 +68,7 @@ public class ProjectServiceImpl implements ProjectService {
         Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
 
         project.getEmployees().remove(currentEmployee);
-        currentEmployee.setProject(null);
+        currentEmployee.getProjects().remove(project);
 
         projectRepository.save(project);
         employeeRepository.save(currentEmployee);
@@ -77,10 +77,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void removeProject(long id) {
         List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
-        Project defaultProject = projectRepository.findById(1).orElseThrow(ObjectNotFoundException::new);
+        Project project = projectRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
 
         for (Employee employee : projectEmployees) {
-            employee.setProject(defaultProject);
+            employee.getProjects().remove(project);
         }
 
         projectRepository.deleteById(id);
@@ -127,7 +127,7 @@ public class ProjectServiceImpl implements ProjectService {
         String lastName = projectEmployeeDTO.getFullName().split(" ")[2];
         Employee employee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
 
-        employee.setProject(project);
+        employee.getProjects().add(project);
         employeeRepository.save(employee);
 
         project.getEmployees().add(employee);
