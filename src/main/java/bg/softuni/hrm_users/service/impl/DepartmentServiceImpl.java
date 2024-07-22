@@ -96,8 +96,9 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department newDepartment = new Department();
         Employee manager = findEmployeeByFullName(addDepartmentDTO.getManager());
 
+        newDepartment.setDepartmentName(addDepartmentDTO.getDepartmentName());
+        newDepartment.setDescription(addDepartmentDTO.getDescriptions());
         newDepartment.setManager(manager);
-
 
         departmentRepository.save(newDepartment);
     }
