@@ -1,10 +1,12 @@
 package bg.softuni.hrm_users.web;
 
 import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
+import bg.softuni.hrm_users.model.dto.AddProjectDTO;
 import bg.softuni.hrm_users.model.dto.DepartmentDTO;
 import bg.softuni.hrm_users.service.DepartmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DepartmentDTO> findEmployeeById(@PathVariable("id") long id){
+    public ResponseEntity<DepartmentDTO> findDepartmentById(@PathVariable("id") long id){
 
         return ResponseEntity.ok(departmentService.getDepartmentByID(id));
     }
@@ -46,6 +48,22 @@ public class DepartmentController {
 
         return ResponseEntity
                 .noContent()
+                .build();
+    }
+
+    @PostMapping()
+    public ResponseEntity<Void> createDepartment(
+            @RequestBody AddDepartmentDTO addDepartmentDTO
+    ){
+        departmentService.addDepartment(addDepartmentDTO);
+
+        return ResponseEntity
+                .created(
+                        ServletUriComponentsBuilder
+                                .fromCurrentRequest()
+                                .build()
+                                .toUri()
+                )
                 .build();
     }
 }

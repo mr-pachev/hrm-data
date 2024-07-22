@@ -96,6 +96,18 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentRepository.delete(departmentForRemove);
     }
 
+    @Override
+    public void addDepartment(AddDepartmentDTO addDepartmentDTO) {
+        Department newDepartment = mapper.map(addDepartmentDTO, Department.class);
+
+        System.out.println();
+    }
+
+    @Override
+    public boolean isExistDepartment(String name) {
+        return departmentRepository.existsByDepartmentName(DepartmentName.valueOf(name));
+    }
+
     private DepartmentDTO mapToDepartmentDTO(Department department) {
         DepartmentDTO departmentDTO = new DepartmentDTO();
 

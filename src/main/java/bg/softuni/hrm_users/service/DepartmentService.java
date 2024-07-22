@@ -13,4 +13,6 @@ public interface DepartmentService {
     DepartmentDTO getDepartmentByID(long id);
     void editDepartment(AddDepartmentDTO addDepartmentDTO);
     void removeDepartment(long id);
+    void addDepartment(AddDepartmentDTO addDepartmentDTO);
+    boolean isExistDepartment(String name);
 }
