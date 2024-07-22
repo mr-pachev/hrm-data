@@ -10,6 +10,23 @@ INSERT INTO departments (department_name, description, manager_id) VALUES ('CUST
 INSERT INTO departments (department_name, description, manager_id) VALUES ('MAINTENANCE_DEPARTMENT', 'Performs cleaning, repair work and general maintenance of the company facilities.', null);
 INSERT INTO departments (department_name, description, manager_id) VALUES ('DEFAULT_DEPARTMENT', 'Consists of employees with an unspecified department.', null);
 
+-- Insert positions --
+INSERT INTO positions (position_name, description) VALUES ('CHIEF_OPERATING_OFFICER', 'The COO oversees the day-to-day operations of the company. They ensure that the business is running efficiently and effectively, often managing departments like production, marketing, and human resources.');
+INSERT INTO positions (position_name, description) VALUES ('CHIEF_EXECUTIVE_OFFICER', 'The CEO is responsible for the overall management and strategic direction of the company.');
+INSERT INTO positions (position_name, description) VALUES ('CHIEF_FINANCIAL_OFFICER', 'The CFO manages the financial actions of the company. They oversee financial planning, financial risk management, record-keeping, and financial reporting.');
+INSERT INTO positions (position_name, description) VALUES ('FINANCIAL_OFFICER', 'These duties help the financial officer to effectively manage the financial aspects and maintain the financial stability and sustainability of the business.');
+INSERT INTO positions (position_name, description) VALUES ('HUMAN_RESOURCES_MANAGER', 'The HR Manager handles all aspects of human resources within the company. They recruit and onboard new employees.');
+INSERT INTO positions (position_name, description) VALUES ('HEAD_OF_DEPARTMENT', 'The role of Head of Department is crucial in ensuring the effective functioning and success of their respective department within the broader organizational structure.');
+INSERT INTO positions (position_name, description) VALUES ('IT_ADMINISTRATOR', 'The IT Administrator manages the company''s information technology infrastructure. They handle hardware and software installations, network security, system upgrades, and troubleshooting IT issues.');
+INSERT INTO positions (position_name, description) VALUES ('PROJECT_MANAGER', 'Project Managers play a critical role in driving project success by effectively managing resources, risks, and stakeholder expectations throughout the project lifecycle.');
+INSERT INTO positions (position_name, description) VALUES ('MARKETING_MANAGER', 'The Marketing Manager develops and implements marketing strategies to promote the company''s products or services.');
+INSERT INTO positions (position_name, description) VALUES ('DEVELOPER', 'A developer is responsible for writing, testing, and maintaining code for software applications, websites, or other digital products.');
+INSERT INTO positions (position_name, description) VALUES ('SENIOR_DEVELOPER', 'This position typically involves significant technical expertise and responsibility within a software development team or organization.');
+INSERT INTO positions (position_name, description) VALUES ('LEAD_DEVELOPER', 'A Lead Developer is responsible for guiding and overseeing the technical aspects of software projects.');
+INSERT INTO positions (position_name, description) VALUES ('QUALITY_ASSURANCE', 'Quality Assurance (QA) refers to a systematic process or set of activities designed to ensure that products or services meet specified requirements and standards.');
+INSERT INTO positions (position_name, description) VALUES ('CUSTOMER_SUPPORT', 'Assist its customers in making cost-effective and correct use of a product or service.');
+INSERT INTO positions (position_name, description) VALUES ('CLEANER', 'Person responsible for maintaining the cleanliness and hygiene of the office environment. Lays a crucial role in creating a pleasant and healthy work environment for office employees.');
+
 -- Insert employees --
 INSERT INTO employees (first_name, middle_name, last_name, identification_number, age, start_date, department_id, position_id, education_id)VALUES('Ivan', 'Petkov', 'Pachev', '1234567890', 40, '2017-09-07', 1, 1, 2);
 INSERT INTO employees (first_name, middle_name, last_name, identification_number, age, start_date, department_id, position_id, education_id)VALUES('Dimitur', 'Ivanov', 'Borisov', '1345678901', 23, '2022-05-22', 7, 10, 2);

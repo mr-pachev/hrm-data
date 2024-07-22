@@ -63,7 +63,7 @@ public class EmployeeControllerIT {
                 .andExpect(jsonPath("$.lastName", is(actualEntity.getLastName())))
                 .andExpect(jsonPath("$.identificationNumber", is(actualEntity.getIdentificationNumber())))
                 .andExpect(jsonPath("$.startDate", is(actualEntity.getStartDate().toString())))
-                .andExpect(jsonPath("$.position", is(actualEntity.getPosition().getPositionName().name())));
+                .andExpect(jsonPath("$.position", is(actualEntity.getPosition().getPositionName())));
     }
 
     @Test
@@ -111,7 +111,7 @@ public class EmployeeControllerIT {
         Assertions.assertEquals("123456789", createdEmployee.getIdentificationNumber());
         Assertions.assertEquals(30, createdEmployee.getAge());
         Assertions.assertEquals("2024-07-12", createdEmployee.getStartDate().toString());
-        Assertions.assertEquals("DEVELOPER", createdEmployee.getPosition().getPositionName().name());
+        Assertions.assertEquals("DEVELOPER", createdEmployee.getPosition().getPositionName());
         Assertions.assertEquals("IT_DEPARTMENT", createdEmployee.getDepartment().getDepartmentName());
         Assertions.assertEquals("HIGHER", createdEmployee.getEducation().getEducationName().name());
     }

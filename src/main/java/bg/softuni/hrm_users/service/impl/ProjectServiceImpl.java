@@ -200,7 +200,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<EmployeeDTO> employeeDTOS = new ArrayList<>();
         for (Employee employee : employees) {
             EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
-            employeeDTO.setPosition(employee.getPosition().getPositionName().name());
+            employeeDTO.setPosition(employee.getPosition().getPositionName());
             employeeDTO.setDepartment(employee.getDepartment().getDepartmentName());
             employeeDTO.setEducation(employee.getEducation().getEducationName().name());
 

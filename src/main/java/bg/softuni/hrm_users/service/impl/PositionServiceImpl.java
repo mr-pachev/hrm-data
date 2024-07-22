@@ -21,7 +21,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public List<String> getAllPositionName() {;
         return positionRepository.findAll().stream()
-                .map(position -> position.getPositionName().name())
+                .map(position -> position.getPositionName())
                 .collect(Collectors.toList());
     }
 }

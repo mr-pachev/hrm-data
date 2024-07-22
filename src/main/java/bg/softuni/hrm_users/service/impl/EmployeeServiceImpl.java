@@ -66,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     public EmployeeDTO mapToEmployeeDTO(Employee employee) {
         EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
-        employeeDTO.setPosition(employee.getPosition().getPositionName().name());
+        employeeDTO.setPosition(employee.getPosition().getPositionName());
         employeeDTO.setDepartment(employee.getDepartment().getDepartmentName());
         employeeDTO.setEducation(employee.getEducation().getEducationName().name());
 
@@ -114,7 +114,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeDTO reMap(Employee employee) {
         EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
 
-        employeeDTO.setPosition(employee.getPosition().getPositionName().name());
+        employeeDTO.setPosition(employee.getPosition().getPositionName());
         employeeDTO.setDepartment(employee.getDepartment().getDepartmentName());
         employeeDTO.setEducation(employee.getEducation().getEducationName().name());
 

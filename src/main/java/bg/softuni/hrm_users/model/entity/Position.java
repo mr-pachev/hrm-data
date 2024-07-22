@@ -11,8 +11,9 @@ import java.util.List;
 @Table(name = "positions")
 public class Position extends BaseEntity{
 
-    @Enumerated(EnumType.STRING)
-    private PositionName positionName;
+    @NotBlank
+    @Column(name = "position_name")
+    private String positionName;
     @NotBlank
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -20,22 +21,11 @@ public class Position extends BaseEntity{
     @OneToMany(mappedBy = "position")
     private List<Employee> employees;
 
-    public Position() {
-        this.employees = new ArrayList<>();
-    }
-
-    public Position(PositionName positionName, String description) {
-        this();
-
-        this.positionName = positionName;
-        this.description = description;
-    }
-
-    public PositionName getPositionName() {
+    public String getPositionName() {
         return positionName;
     }
 
-    public void setPositionName(PositionName positionName) {
+    public void setPositionName(String positionName) {
         this.positionName = positionName;
     }
 
