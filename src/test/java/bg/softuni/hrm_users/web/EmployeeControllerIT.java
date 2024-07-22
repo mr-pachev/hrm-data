@@ -2,7 +2,6 @@ package bg.softuni.hrm_users.web;
 
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.enums.EducationName;
-import bg.softuni.hrm_users.model.enums.PositionName;
 import bg.softuni.hrm_users.repository.DepartmentRepository;
 import bg.softuni.hrm_users.repository.EducationRepository;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
@@ -138,7 +137,7 @@ public class EmployeeControllerIT {
         employee.setIdentificationNumber("1111111119");
         employee.setAge(40);
         employee.setStartDate(LocalDate.now());
-        employee.setPosition(positionRepository.findByPositionName(PositionName.CLEANER));
+        employee.setPosition(positionRepository.findByPositionName("CLEANER"));
         employee.setDepartment(departmentRepository.findByDepartmentName("MAINTENANCE_DEPARTMENT"));
         employee.setEducation(educationRepository.findByEducationName(EducationName.HIGHER));
 

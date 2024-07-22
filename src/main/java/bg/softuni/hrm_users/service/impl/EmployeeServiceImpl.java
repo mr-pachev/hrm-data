@@ -4,7 +4,6 @@ import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.enums.EducationName;
-import bg.softuni.hrm_users.model.enums.PositionName;
 import bg.softuni.hrm_users.repository.DepartmentRepository;
 import bg.softuni.hrm_users.repository.EducationRepository;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
@@ -85,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         LocalDate startDate = mapper.map(addEmployeeDTO.getStartDate(), LocalDate.class);
         employee.setStartDate(startDate);
 
-        employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(addEmployeeDTO.getPosition())));
+        employee.setPosition(positionRepository.findByPositionName(addEmployeeDTO.getPosition()));
         employee.setDepartment(departmentRepository.findByDepartmentName(addEmployeeDTO.getDepartment()));
         employee.setEducation((educationRepository.findByEducationName(EducationName.valueOf(addEmployeeDTO.getEducation()))));
 
@@ -104,7 +103,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         LocalDate startDate = mapper.map(employeeDTO.getStartDate(), LocalDate.class);
         employee.setStartDate(startDate);
 
-        employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(employeeDTO.getPosition())));
+        employee.setPosition(positionRepository.findByPositionName(employeeDTO.getPosition()));
         employee.setDepartment(departmentRepository.findByDepartmentName(employeeDTO.getDepartment()));
         employee.setEducation((educationRepository.findByEducationName(EducationName.valueOf(employeeDTO.getEducation()))));
 

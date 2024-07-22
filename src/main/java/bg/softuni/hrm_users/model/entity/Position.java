@@ -1,10 +1,8 @@
 package bg.softuni.hrm_users.model.entity;
 
-import bg.softuni.hrm_users.model.enums.PositionName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +16,7 @@ public class Position extends BaseEntity{
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(mappedBy = "position")
+    @OneToMany(mappedBy = "position", fetch = FetchType.EAGER)
     private List<Employee> employees;
 
     public String getPositionName() {
