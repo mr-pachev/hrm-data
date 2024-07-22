@@ -5,7 +5,6 @@ import bg.softuni.hrm_users.model.dto.DepartmentDTO;
 import bg.softuni.hrm_users.model.entity.Department;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Project;
-import bg.softuni.hrm_users.model.enums.DepartmentName;
 import bg.softuni.hrm_users.repository.DepartmentRepository;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.ProjectRepository;
@@ -35,7 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<String> getAllDepartments() {
         return departmentRepository.findAll().stream()
-                .map(department -> department.getDepartmentName().name())
+                .map(department -> department.getDepartmentName())
                 .collect(Collectors.toList());
     }
 
@@ -63,13 +62,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void editDepartment(AddDepartmentDTO addDepartmentDTO) {
-        Department department = departmentRepository.findByDepartmentName(DepartmentName.valueOf(addDepartmentDTO.getDepartmentName()));
+        Department department = departmentRepository.findByDepartmentName(addDepartmentDTO.getDepartmentName());
+        Employee newManager = findEmployeeByFullName(addDepartmentDTO.getManager());
 
-        String firstName = addDepartmentDTO.getManager().split(" ")[0];
-        String middleName = addDepartmentDTO.getManager().split(" ")[1];
-        String lastName = addDepartmentDTO.getManager().split(" ")[2];
-
-        Employee newManager = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
         department.setManager(newManager);
         department.setEmployees(employeeRepository.findAllByDepartment(department));
         department.setProjects(projectRepository.findAllByResponsibleDepartment(department));
@@ -80,7 +75,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void removeDepartment(long id) {
         Department departmentForRemove = departmentRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
-        Department defaultDep = departmentRepository.findByDepartmentName(DepartmentName.DEFAULT_DEPARTMENT);
+        Department defaultDep = departmentRepository.findByDepartmentName("DEFAULT_DEPARTMENT");
 
 
         for (Employee employee : departmentForRemove.getEmployees()) {
@@ -98,14 +93,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void addDepartment(AddDepartmentDTO addDepartmentDTO) {
-        Department newDepartment = mapper.map(addDepartmentDTO, Department.class);
+        Department newDepartment = new Department();
+        Employee manager = findEmployeeByFullName(addDepartmentDTO.getManager());
 
-        System.out.println();
+        newDepartment.setManager(manager);
+
+
+        departmentRepository.save(newDepartment);
     }
 
     @Override
     public boolean isExistDepartment(String name) {
-        return departmentRepository.existsByDepartmentName(DepartmentName.valueOf(name));
+        return departmentRepository.existsByDepartmentName(name);
     }
 
     private DepartmentDTO mapToDepartmentDTO(Department department) {
@@ -114,13 +113,13 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setEmployees(employeeRepository.findAllByDepartment(department));
         department.setProjects(projectRepository.findAllByResponsibleDepartment(department));
 
-        departmentDTO.setDepartmentName(department.getDepartmentName().name());
+        departmentDTO.setDepartmentName(department.getDepartmentName());
         String managerName = department.getManager().getFirstName() + " " +
                 department.getManager().getMiddleName() + " " +
                 department.getManager().getLastName();
 
         departmentDTO.setId(department.getId());
-        departmentDTO.setDescriptions(department.getDescriptions());
+        departmentDTO.setDescriptions(department.getDescription());
         departmentDTO.setManager(managerName);
         departmentDTO.setIdentificationNumber(department.getManager().getIdentificationNumber());
 
@@ -133,5 +132,13 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .collect(Collectors.toList()));
 
         return departmentDTO;
+    }
+
+    private Employee findEmployeeByFullName (String fullName){
+        String firstName = fullName.split(" ")[0];
+        String middleName = fullName.split(" ")[1];
+        String lastName = fullName.split(" ")[2];
+
+        return employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
     }
 }

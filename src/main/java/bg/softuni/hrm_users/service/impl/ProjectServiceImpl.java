@@ -6,7 +6,6 @@ import bg.softuni.hrm_users.model.dto.ProjectDTO;
 import bg.softuni.hrm_users.model.dto.ProjectEmployeeDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Project;
-import bg.softuni.hrm_users.model.enums.DepartmentName;
 import bg.softuni.hrm_users.repository.DepartmentRepository;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.ProjectRepository;
@@ -20,7 +19,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -54,7 +52,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         LocalDate endDate = mapper.map(addProjectDTO.getEndDate(), LocalDate.class);
         project.setEndData(endDate);
-        project.setResponsibleDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(addProjectDTO.getResponsibleDepartment())));
+        project.setResponsibleDepartment(departmentRepository.findByDepartmentName(addProjectDTO.getResponsibleDepartment()));
 
         projectRepository.save(project);
     }
@@ -71,7 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
         ProjectDTO projectDTO = mapper.map(project, ProjectDTO.class);
 
-        projectDTO.setResponsibleDepartment(project.getResponsibleDepartment().getDepartmentName().name());
+        projectDTO.setResponsibleDepartment(project.getResponsibleDepartment().getDepartmentName());
 
         return projectDTO;
     }
@@ -158,7 +156,7 @@ public class ProjectServiceImpl implements ProjectService {
             projectDTO.setDescription(project.getDescription());
             projectDTO.setStartDate(project.getStartDate().toString());
             projectDTO.setEndDate(project.getEndData().toString());
-            projectDTO.setResponsibleDepartment(project.getResponsibleDepartment().getDepartmentName().name());
+            projectDTO.setResponsibleDepartment(project.getResponsibleDepartment().getDepartmentName());
 
             List<String> employees = mapToStringList(project.getId());
 
@@ -193,7 +191,7 @@ public class ProjectServiceImpl implements ProjectService {
         LocalDate endDate = mapper.map(projectDTO.getEndDate(), LocalDate.class);
         project.setEndData(endDate);
 
-        project.setResponsibleDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(projectDTO.getResponsibleDepartment())));
+        project.setResponsibleDepartment(departmentRepository.findByDepartmentName(projectDTO.getResponsibleDepartment()));
 
         return project;
     }
@@ -203,7 +201,7 @@ public class ProjectServiceImpl implements ProjectService {
         for (Employee employee : employees) {
             EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
             employeeDTO.setPosition(employee.getPosition().getPositionName().name());
-            employeeDTO.setDepartment(employee.getDepartment().getDepartmentName().name());
+            employeeDTO.setDepartment(employee.getDepartment().getDepartmentName());
             employeeDTO.setEducation(employee.getEducation().getEducationName().name());
 
             employeeDTOS.add(employeeDTO);

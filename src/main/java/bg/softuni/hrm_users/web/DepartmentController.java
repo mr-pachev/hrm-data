@@ -1,7 +1,6 @@
 package bg.softuni.hrm_users.web;
 
 import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
-import bg.softuni.hrm_users.model.dto.AddProjectDTO;
 import bg.softuni.hrm_users.model.dto.DepartmentDTO;
 import bg.softuni.hrm_users.service.DepartmentService;
 import org.springframework.http.ResponseEntity;

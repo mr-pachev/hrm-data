@@ -1,12 +1,9 @@
 package bg.softuni.hrm_users.init;
 
-import bg.softuni.hrm_users.model.entity.Department;
 import bg.softuni.hrm_users.model.entity.Education;
 import bg.softuni.hrm_users.model.entity.Position;
-import bg.softuni.hrm_users.model.enums.DepartmentName;
 import bg.softuni.hrm_users.model.enums.EducationName;
 import bg.softuni.hrm_users.model.enums.PositionName;
-import bg.softuni.hrm_users.repository.DepartmentRepository;
 import bg.softuni.hrm_users.repository.EducationRepository;
 import bg.softuni.hrm_users.repository.PositionRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -20,31 +17,23 @@ import java.util.Map;
 @Component
 public class InitService implements CommandLineRunner {
     private final PositionRepository positionRepository;
-    private final DepartmentRepository departmentRepository;
     private final EducationRepository educationRepository;
    Map<PositionName, String> descriptionPosition = new HashMap<>();
-   Map<DepartmentName, String> descriptionDepartment = new HashMap<>();
 
-    public InitService(PositionRepository positionRepository, DepartmentRepository departmentRepository,
+    public InitService(PositionRepository positionRepository,
                        EducationRepository educationRepository) {
         this.positionRepository = positionRepository;
-        this.departmentRepository = departmentRepository;
         this.educationRepository = educationRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         initializePositionMap();
-        initializeDepartmentMap();
 
         long countPosition = this.positionRepository.count();
-        long countDepartment = this.departmentRepository.count();
         long countEducation = this.educationRepository.count();
 
         if (countPosition > 0) {
-            return;
-        }
-        if (countDepartment > 0) {
             return;
         }
         if (countEducation > 0) {
@@ -55,16 +44,11 @@ public class InitService implements CommandLineRunner {
                 .map(pos -> new Position(pos, descriptionPosition.get(pos)))
                 .toList();
 
-        List<Department> toInsertDepartment = Arrays.stream(DepartmentName.values())
-                .map(dep -> new Department(dep, descriptionDepartment.get(dep)))
-                .toList();
-
         List<Education> toInsertEducation = Arrays.stream(EducationName.values())
                 .map(Education::new)
                 .toList();
 
         this.positionRepository.saveAll(toInsertPosition);
-        this.departmentRepository.saveAll(toInsertDepartment);
         this.educationRepository.saveAll(toInsertEducation);
     }
 
@@ -85,19 +69,5 @@ public class InitService implements CommandLineRunner {
         descriptionPosition.put(PositionName.QUALITY_ASSURANCE, "Quality Assurance (QA) refers to a systematic process or set of activities designed to ensure that products or services meet specified requirements and standards.");
         descriptionPosition.put(PositionName.CUSTOMER_SUPPORT, "Assist its customers in making cost-effective and correct use of a product or service.");
         descriptionPosition.put(PositionName.CLEANER, "Person responsible for maintaining the cleanliness and hygiene of the office environment. Lays a crucial role in creating a pleasant and healthy work environment for office employees.");
-    }
-
-    private void initializeDepartmentMap() {
-        descriptionDepartment = new HashMap<>();
-        descriptionDepartment.put(DepartmentName.EXECUTIVES, "Responsible for the overall management and strategic direction of the company.");
-        descriptionDepartment.put(DepartmentName.FINANCE_DEPARTMENT, "Handles the financial planning, management, and record-keeping of the company.");
-        descriptionDepartment.put(DepartmentName.HR_DEPARTMENT, "Manages the recruitment, training, development, and welfare of the company's employees.");
-        descriptionDepartment.put(DepartmentName.ADMINISTRATIVE_DEPARTMENT, "Provides support services essential to the day-to-day operations of the company.");
-        descriptionDepartment.put(DepartmentName.PROJECT_MANAGEMENT_DEPARTMENT, "Responsible for planning, executing, and closing projects.");
-        descriptionDepartment.put(DepartmentName.MARKETING_DEPARTMENT, "Focuses on promoting the company’s products or services.");
-        descriptionDepartment.put(DepartmentName.IT_DEPARTMENT, "Manages the company’s technology infrastructure.");
-        descriptionDepartment.put(DepartmentName.CUSTOMER_SUPPORT_DEPARTMENT, "Provides assistance and support to the company’s customers.");
-        descriptionDepartment.put(DepartmentName.MAINTENANCE_DEPARTMENT, "Ensures that the company's physical environment is clean, safe, and functional. This includes cleaning, repair work, and general upkeep of the company's facilities.");
-        descriptionDepartment.put(DepartmentName.DEFAULT_DEPARTMENT, "Consists of employees with an unspecified department.");
     }
 }

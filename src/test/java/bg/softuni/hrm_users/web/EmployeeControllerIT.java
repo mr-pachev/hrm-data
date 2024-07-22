@@ -1,7 +1,6 @@
 package bg.softuni.hrm_users.web;
 
 import bg.softuni.hrm_users.model.entity.Employee;
-import bg.softuni.hrm_users.model.enums.DepartmentName;
 import bg.softuni.hrm_users.model.enums.EducationName;
 import bg.softuni.hrm_users.model.enums.PositionName;
 import bg.softuni.hrm_users.repository.DepartmentRepository;
@@ -113,7 +112,7 @@ public class EmployeeControllerIT {
         Assertions.assertEquals(30, createdEmployee.getAge());
         Assertions.assertEquals("2024-07-12", createdEmployee.getStartDate().toString());
         Assertions.assertEquals("DEVELOPER", createdEmployee.getPosition().getPositionName().name());
-        Assertions.assertEquals("IT_DEPARTMENT", createdEmployee.getDepartment().getDepartmentName().name());
+        Assertions.assertEquals("IT_DEPARTMENT", createdEmployee.getDepartment().getDepartmentName());
         Assertions.assertEquals("HIGHER", createdEmployee.getEducation().getEducationName().name());
     }
 
@@ -140,7 +139,7 @@ public class EmployeeControllerIT {
         employee.setAge(40);
         employee.setStartDate(LocalDate.now());
         employee.setPosition(positionRepository.findByPositionName(PositionName.CLEANER));
-        employee.setDepartment(departmentRepository.findByDepartmentName(DepartmentName.MAINTENANCE_DEPARTMENT));
+        employee.setDepartment(departmentRepository.findByDepartmentName("MAINTENANCE_DEPARTMENT"));
         employee.setEducation(educationRepository.findByEducationName(EducationName.HIGHER));
 
         return employeeRepository.save(employee);

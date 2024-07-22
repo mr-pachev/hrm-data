@@ -3,7 +3,6 @@ package bg.softuni.hrm_users.repository;
 import bg.softuni.hrm_users.model.entity.Department;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Project;
-import bg.softuni.hrm_users.model.enums.DepartmentName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

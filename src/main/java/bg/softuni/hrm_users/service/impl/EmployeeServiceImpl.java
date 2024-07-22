@@ -3,7 +3,6 @@ package bg.softuni.hrm_users.service.impl;
 import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
-import bg.softuni.hrm_users.model.enums.DepartmentName;
 import bg.softuni.hrm_users.model.enums.EducationName;
 import bg.softuni.hrm_users.model.enums.PositionName;
 import bg.softuni.hrm_users.repository.DepartmentRepository;
@@ -68,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDTO mapToEmployeeDTO(Employee employee) {
         EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
         employeeDTO.setPosition(employee.getPosition().getPositionName().name());
-        employeeDTO.setDepartment(employee.getDepartment().getDepartmentName().name());
+        employeeDTO.setDepartment(employee.getDepartment().getDepartmentName());
         employeeDTO.setEducation(employee.getEducation().getEducationName().name());
 
         return employeeDTO;
@@ -87,7 +86,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setStartDate(startDate);
 
         employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(addEmployeeDTO.getPosition())));
-        employee.setDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(addEmployeeDTO.getDepartment())));
+        employee.setDepartment(departmentRepository.findByDepartmentName(addEmployeeDTO.getDepartment()));
         employee.setEducation((educationRepository.findByEducationName(EducationName.valueOf(addEmployeeDTO.getEducation()))));
 
         return employee;
@@ -106,7 +105,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setStartDate(startDate);
 
         employee.setPosition(positionRepository.findByPositionName(PositionName.valueOf(employeeDTO.getPosition())));
-        employee.setDepartment(departmentRepository.findByDepartmentName(DepartmentName.valueOf(employeeDTO.getDepartment())));
+        employee.setDepartment(departmentRepository.findByDepartmentName(employeeDTO.getDepartment()));
         employee.setEducation((educationRepository.findByEducationName(EducationName.valueOf(employeeDTO.getEducation()))));
 
         return employee;
@@ -116,7 +115,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
 
         employeeDTO.setPosition(employee.getPosition().getPositionName().name());
-        employeeDTO.setDepartment(employee.getDepartment().getDepartmentName().name());
+        employeeDTO.setDepartment(employee.getDepartment().getDepartmentName());
         employeeDTO.setEducation(employee.getEducation().getEducationName().name());
 
         return employeeDTO;

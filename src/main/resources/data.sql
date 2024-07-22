@@ -1,3 +1,15 @@
+-- Insert departments --
+INSERT INTO departments (department_name, description, manager_id) VALUES ('EXECUTIVES', 'Responsible for the overall management and strategic direction of the company.', null);
+INSERT INTO departments (department_name, description, manager_id) VALUES ('PROJECT_MANAGEMENT_DEPARTMENT', 'Responsible for planning, executing, and closing projects.', null);
+INSERT INTO departments (department_name, description, manager_id) VALUES ('ADMINISTRATIVE_DEPARTMENT', 'Provides support services essential to the day-to-day operations of the company.', null);
+INSERT INTO departments (department_name, description, manager_id) VALUES ('HR_DEPARTMENT', 'Manages the recruitment, training, development, and welfare of the company employees.', null);
+INSERT INTO departments (department_name, description, manager_id) VALUES ('FINANCE_DEPARTMENT', 'Handles the financial planning, management, and record-keeping of the company.', null);
+INSERT INTO departments (department_name, description, manager_id) VALUES ('MARKETING_DEPARTMENT', 'Focuses on promoting the company’s products or services.', null);
+INSERT INTO departments (department_name, description, manager_id) VALUES ('IT_DEPARTMENT', 'Manages the company’s technology infrastructure.', null);
+INSERT INTO departments (department_name, description, manager_id) VALUES ('CUSTOMER_SUPPORT_DEPARTMENT', 'Provides assistance and support to the company’s customers.', null);
+INSERT INTO departments (department_name, description, manager_id) VALUES ('MAINTENANCE_DEPARTMENT', 'Performs cleaning, repair work and general maintenance of the company facilities.', null);
+INSERT INTO departments (department_name, description, manager_id) VALUES ('DEFAULT_DEPARTMENT', 'Consists of employees with an unspecified department.', null);
+
 -- Insert employees --
 INSERT INTO employees (first_name, middle_name, last_name, identification_number, age, start_date, department_id, position_id, education_id)VALUES('Ivan', 'Petkov', 'Pachev', '1234567890', 40, '2017-09-07', 1, 1, 2);
 INSERT INTO employees (first_name, middle_name, last_name, identification_number, age, start_date, department_id, position_id, education_id)VALUES('Dimitur', 'Ivanov', 'Borisov', '1345678901', 23, '2022-05-22', 7, 10, 2);
