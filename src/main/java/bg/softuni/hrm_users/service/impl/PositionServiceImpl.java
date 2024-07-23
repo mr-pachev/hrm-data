@@ -1,5 +1,6 @@
 package bg.softuni.hrm_users.service.impl;
 
+import bg.softuni.hrm_users.model.dto.AddPositionDTO;
 import bg.softuni.hrm_users.model.dto.DepartmentDTO;
 import bg.softuni.hrm_users.model.dto.PositionDTO;
 import bg.softuni.hrm_users.model.entity.Department;
@@ -26,7 +27,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public List<String> getAllPositionName() {;
         return positionRepository.findAll().stream()
-                .map(position -> position.getPositionName())
+                .map(Position::getPositionName)
                 .collect(Collectors.toList());
     }
 
@@ -41,5 +42,12 @@ public class PositionServiceImpl implements PositionService {
         }
 
         return positionsDTOS;
+    }
+
+    @Override
+    public void addNewPosition(AddPositionDTO addPositionDTO) {
+        Position position = mapper.map(addPositionDTO, Position.class);
+
+        positionRepository.save(position);
     }
 }

@@ -34,7 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<String> getAllDepartments() {
         return departmentRepository.findAll().stream()
-                .map(department -> department.getDepartmentName())
+                .map(Department::getDepartmentName)
                 .collect(Collectors.toList());
     }
 
