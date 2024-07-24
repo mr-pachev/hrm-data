@@ -3,8 +3,10 @@ package bg.softuni.hrm_users.service.impl;
 import bg.softuni.hrm_users.model.dto.AddPositionDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.PositionDTO;
+import bg.softuni.hrm_users.model.dto.PositionEmployeesDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Position;
+import bg.softuni.hrm_users.model.entity.Project;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.PositionRepository;
 import bg.softuni.hrm_users.service.PositionService;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,5 +72,32 @@ public class PositionServiceImpl implements PositionService {
         List<Employee> employees = employeeRepository.findAllByPosition(position);
 
       return EmployeeMapperUtil.mapToEmployeeDTOS(employees);
+    }
+
+    @Override
+    public void addEmployee(PositionEmployeesDTO positionEmployeesDTO, long idPos) {
+        Position position = positionRepository.findById(idPos).orElseThrow(ObjectNotFoundException::new);
+
+        String firstName = positionEmployeesDTO.getFullName().split(" ")[0];
+        String middleName = positionEmployeesDTO.getFullName().split(" ")[1];
+        String lastName = positionEmployeesDTO.getFullName().split(" ")[2];
+
+        Employee newEmployee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
+
+        List<Employee> employeesPosition = employeeRepository.findAllByPosition(position);
+
+        for (Employee employee: employeesPosition) {
+            if(Objects.equals(employee.getId(), newEmployee.getId())){
+                return;
+            }
+        }
+        newEmployee.setPosition(position);
+        employeeRepository.save(newEmployee);
+
+        employeesPosition.add(newEmployee);
+
+       position.setEmployees(employeesPosition);
+
+       positionRepository.save(position);
     }
 }

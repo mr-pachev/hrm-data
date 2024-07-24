@@ -1,9 +1,6 @@
 package bg.softuni.hrm_users.service;
 
-import bg.softuni.hrm_users.model.dto.AddPositionDTO;
-import bg.softuni.hrm_users.model.dto.DepartmentDTO;
-import bg.softuni.hrm_users.model.dto.EmployeeDTO;
-import bg.softuni.hrm_users.model.dto.PositionDTO;
+import bg.softuni.hrm_users.model.dto.*;
 
 import java.util.List;
 
@@ -13,4 +10,5 @@ public interface PositionService {
     void addNewPosition(AddPositionDTO addPositionDTO);
     PositionDTO getPositionById(long id);
     List<EmployeeDTO> allPositionEmployees(long id);
+    void addEmployee(PositionEmployeesDTO positionEmployeesDTO, long idPos);
 }

@@ -1,9 +1,6 @@
 package bg.softuni.hrm_users.web;
 
-import bg.softuni.hrm_users.model.dto.AddPositionDTO;
-import bg.softuni.hrm_users.model.dto.EmployeeDTO;
-import bg.softuni.hrm_users.model.dto.PositionDTO;
-import bg.softuni.hrm_users.model.dto.ProjectDTO;
+import bg.softuni.hrm_users.model.dto.*;
 import bg.softuni.hrm_users.service.PositionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +35,15 @@ public class PositionController {
         List<EmployeeDTO> employeeDTOS = positionService.allPositionEmployees(id);
 
         return ResponseEntity.ok(employeeDTOS);
+    }
+
+    @PostMapping("/add-employee/{idPos}")
+    public ResponseEntity<Void> addEmployee(@PathVariable("idPos") Long idPos,
+                                            @RequestBody PositionEmployeesDTO positionEmployeesDTO
+    ){
+        positionService.addEmployee(positionEmployeesDTO, idPos);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping()
