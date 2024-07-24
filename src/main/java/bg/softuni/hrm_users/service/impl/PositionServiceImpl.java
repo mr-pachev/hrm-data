@@ -116,4 +116,17 @@ public class PositionServiceImpl implements PositionService {
         positionRepository.save(position);
         employeeRepository.save(currentEmployee);
     }
+
+    @Override
+    public void removePosition(long id) {
+        Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        List<Employee> employeesPosition = employeeRepository.findAllByPosition(position);
+
+        for (Employee employee : employeesPosition) {
+           employee.setPosition(positionRepository.findByPositionName("DEFAULT_POSITION"));
+           employeeRepository.save(employee);
+        }
+
+        positionRepository.deleteById(id);
+    }
 }

@@ -70,4 +70,13 @@ public class PositionController {
 
         return ResponseEntity.ok(positionDTO);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePosition(@PathVariable("id") Long id){
+        positionService.removePosition(id);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
 }
