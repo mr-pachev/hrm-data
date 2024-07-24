@@ -2,6 +2,7 @@ package bg.softuni.hrm_users.repository;
 
 import bg.softuni.hrm_users.model.entity.Department;
 import bg.softuni.hrm_users.model.entity.Employee;
+import bg.softuni.hrm_users.model.entity.Position;
 import bg.softuni.hrm_users.model.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Optional<Employee> findByFirstNameAndMiddleNameAndLastName(String firstName, String middleName, String lastName);
     @Query("SELECT e.projects FROM Employee e WHERE e.id = :employeeId")
     List<Project> findProjectsByEmployeeId(@Param("employeeId") Long employeeId);
+
+    List<Employee> findAllByPosition(Position position);
 }

@@ -11,6 +11,7 @@ import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.ProjectRepository;
 import bg.softuni.hrm_users.service.ProjectService;
 import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
+import bg.softuni.hrm_users.util.EmployeeMapperUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,7 +91,7 @@ public class ProjectServiceImpl implements ProjectService {
     public List<EmployeeDTO> allProjectEmployees(long id) {
         List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
 
-        return mapToEmployeeDTOS(projectEmployees);
+        return EmployeeMapperUtil.mapToEmployeeDTOS(projectEmployees);
     }
 
     @Override
@@ -194,19 +195,5 @@ public class ProjectServiceImpl implements ProjectService {
         project.setResponsibleDepartment(departmentRepository.findByDepartmentName(projectDTO.getResponsibleDepartment()));
 
         return project;
-    }
-
-    private List<EmployeeDTO> mapToEmployeeDTOS(List<Employee> employees) {
-        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
-        for (Employee employee : employees) {
-            EmployeeDTO employeeDTO = mapper.map(employee, EmployeeDTO.class);
-            employeeDTO.setPosition(employee.getPosition().getPositionName());
-            employeeDTO.setDepartment(employee.getDepartment().getDepartmentName());
-            employeeDTO.setEducation(employee.getEducation().getEducationName().name());
-
-            employeeDTOS.add(employeeDTO);
-        }
-
-        return employeeDTOS;
     }
 }

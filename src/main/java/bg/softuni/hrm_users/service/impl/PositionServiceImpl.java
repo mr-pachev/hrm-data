@@ -1,12 +1,15 @@
 package bg.softuni.hrm_users.service.impl;
 
 import bg.softuni.hrm_users.model.dto.AddPositionDTO;
-import bg.softuni.hrm_users.model.dto.DepartmentDTO;
+import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.PositionDTO;
-import bg.softuni.hrm_users.model.entity.Department;
+import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Position;
+import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.PositionRepository;
 import bg.softuni.hrm_users.service.PositionService;
+import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
+import bg.softuni.hrm_users.util.EmployeeMapperUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +20,12 @@ import java.util.stream.Collectors;
 @Service
 public class PositionServiceImpl implements PositionService {
    private final PositionRepository positionRepository;
+   private final EmployeeRepository employeeRepository;
    private final ModelMapper mapper;
 
-    public PositionServiceImpl(PositionRepository positionRepository, ModelMapper mapper) {
+    public PositionServiceImpl(PositionRepository positionRepository, EmployeeRepository employeeRepository, ModelMapper mapper) {
         this.positionRepository = positionRepository;
+        this.employeeRepository = employeeRepository;
         this.mapper = mapper;
     }
 
@@ -49,5 +54,20 @@ public class PositionServiceImpl implements PositionService {
         Position position = mapper.map(addPositionDTO, Position.class);
 
         positionRepository.save(position);
+    }
+
+    @Override
+    public PositionDTO getPositionById(long id) {
+        Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+
+        return mapper.map(position, PositionDTO.class);
+    }
+
+    @Override
+    public List<EmployeeDTO> allPositionEmployees(long id) {
+       Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        List<Employee> employees = employeeRepository.findAllByPosition(position);
+
+      return EmployeeMapperUtil.mapToEmployeeDTOS(employees);
     }
 }
