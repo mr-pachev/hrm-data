@@ -46,6 +46,16 @@ public class PositionController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/employee/{idEm}/{idPos}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable("idEm") Long idEm,
+                                               @PathVariable("idPos")Long idPos){
+        positionService.removeEmployee(idEm, idPos);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
     @PostMapping()
     public ResponseEntity<Void> addPosition(@RequestBody AddPositionDTO addPositionDTO
                                             ){

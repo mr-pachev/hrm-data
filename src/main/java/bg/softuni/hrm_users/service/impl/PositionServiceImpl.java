@@ -14,6 +14,7 @@ import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
 import bg.softuni.hrm_users.util.EmployeeMapperUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,5 +100,20 @@ public class PositionServiceImpl implements PositionService {
        position.setEmployees(employeesPosition);
 
        positionRepository.save(position);
+    }
+
+    @Override
+    @Transactional
+    public void removeEmployee(long idEm, long idPos) {
+        Position position = positionRepository.findById(idPos).orElseThrow(ObjectNotFoundException::new);
+        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
+
+        position.getEmployees().remove(currentEmployee);
+        // Премахване на позицията от служителя
+        currentEmployee.setPosition(positionRepository.findByPositionName("DEFAULT_POSITION"));
+
+        // Запазване на промените
+        positionRepository.save(position);
+        employeeRepository.save(currentEmployee);
     }
 }

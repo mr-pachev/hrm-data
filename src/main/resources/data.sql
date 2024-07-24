@@ -26,6 +26,7 @@ INSERT INTO positions (position_name, description) VALUES ('LEAD_DEVELOPER', 'A 
 INSERT INTO positions (position_name, description) VALUES ('QUALITY_ASSURANCE', 'Quality Assurance (QA) refers to a systematic process or set of activities designed to ensure that products or services meet specified requirements and standards.');
 INSERT INTO positions (position_name, description) VALUES ('CUSTOMER_SUPPORT', 'Assist its customers in making cost-effective and correct use of a product or service.');
 INSERT INTO positions (position_name, description) VALUES ('CLEANER', 'Person responsible for maintaining the cleanliness and hygiene of the office environment. Lays a crucial role in creating a pleasant and healthy work environment for office employees.');
+INSERT INTO positions (position_name, description) VALUES ('DEFAULT_POSITION', 'Consists of employees with an unspecified position.');
 
 -- Insert employees --
 INSERT INTO employees (first_name, middle_name, last_name, identification_number, age, start_date, department_id, position_id, education_id)VALUES('Ivan', 'Petkov', 'Pachev', '1234567890', 40, '2017-09-07', 1, 1, 2);
