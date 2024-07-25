@@ -88,12 +88,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public void removePosition(long id) {
         Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
-        List<Employee> employeesPosition = employeeRepository.findAllByPosition(position);
-
-        for (Employee employee : employeesPosition) {
-            employee.setPosition(positionRepository.findByPositionName("DEFAULT_POSITION"));
-            employeeRepository.save(employee);
-        }
+        removePositionInCurrentEmployee(position);
 
         positionRepository.deleteById(id);
     }
@@ -126,17 +121,10 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-//    @Transactional
     public void removeEmployee(long idEm, long idPos) {
-        Position position = positionRepository.findById(idPos).orElseThrow(ObjectNotFoundException::new);
-        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
 
-        position.getEmployees().remove(currentEmployee);
-
-        currentEmployee.setPosition(positionRepository.findByPositionName("DEFAULT_POSITION"));
-
-        positionRepository.save(position);
-        employeeRepository.save(currentEmployee);
+        removeEmployeeFromPosition(idEm, idPos);
+        updateEmployeePosition(idEm, "DEFAULT_POSITION");
     }
 
     private List<Employee> setPositionInCurrentEmployee(Position position) {
@@ -149,4 +137,30 @@ public class PositionServiceImpl implements PositionService {
 
         return employeesPosition;
     }
+
+    private void removePositionInCurrentEmployee(Position position){
+        List<Employee> employeesPosition = employeeRepository.findAllByPosition(position);
+
+        for (Employee employee : employeesPosition) {
+            employee.setPosition(positionRepository.findByPositionName("DEFAULT_POSITION"));
+            employeeRepository.save(employee);
+        }
+    }
+
+    private void removeEmployeeFromPosition(long idEm, long idPos) {
+        Position position = positionRepository.findById(idPos).orElseThrow(ObjectNotFoundException::new);
+        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
+
+        position.getEmployees().remove(currentEmployee);
+        positionRepository.save(position);
+    }
+
+    private void updateEmployeePosition(long idEm, String defaultPositionName) {
+        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
+        Position defaultPosition = positionRepository.findByPositionName(defaultPositionName);
+
+        currentEmployee.setPosition(defaultPosition);
+        employeeRepository.save(currentEmployee);
+    }
+
 }
