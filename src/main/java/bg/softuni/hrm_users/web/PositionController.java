@@ -71,6 +71,15 @@ public class PositionController {
         return ResponseEntity.ok(positionDTO);
     }
 
+    @PostMapping("/edit")
+    public ResponseEntity<PositionDTO> editPosition(
+            @RequestBody PositionDTO positionDTO
+    ){
+        positionService.editPosition(positionDTO);
+
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePosition(@PathVariable("id") Long id){
         positionService.removePosition(id);

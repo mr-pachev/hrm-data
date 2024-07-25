@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class PositionServiceImpl implements PositionService {
-   private final PositionRepository positionRepository;
-   private final EmployeeRepository employeeRepository;
-   private final ModelMapper mapper;
+    private final PositionRepository positionRepository;
+    private final EmployeeRepository employeeRepository;
+    private final ModelMapper mapper;
 
     public PositionServiceImpl(PositionRepository positionRepository, EmployeeRepository employeeRepository, ModelMapper mapper) {
         this.positionRepository = positionRepository;
@@ -34,7 +34,8 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public List<String> getAllPositionName() {;
+    public List<String> getAllPositionName() {
+        ;
         return positionRepository.findAll().stream()
                 .map(Position::getPositionName)
                 .collect(Collectors.toList());
@@ -54,10 +55,11 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public void addNewPosition(AddPositionDTO addPositionDTO) {
-        Position position = mapper.map(addPositionDTO, Position.class);
+    public List<EmployeeDTO> allPositionEmployees(long id) {
+        Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        List<Employee> employees = employeeRepository.findAllByPosition(position);
 
-        positionRepository.save(position);
+        return EmployeeMapperUtil.mapToEmployeeDTOS(employees);
     }
 
     @Override
@@ -68,11 +70,32 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public List<EmployeeDTO> allPositionEmployees(long id) {
-       Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
-        List<Employee> employees = employeeRepository.findAllByPosition(position);
+    public void addNewPosition(AddPositionDTO addPositionDTO) {
+        Position position = mapper.map(addPositionDTO, Position.class);
 
-      return EmployeeMapperUtil.mapToEmployeeDTOS(employees);
+        positionRepository.save(position);
+    }
+
+    @Override
+    public void editPosition(PositionDTO positionDTO) {
+        Position position = mapper.map(positionDTO, Position.class);
+
+        position.setEmployees(setPositionInCurrentEmployee(position));
+
+        positionRepository.save(position);
+    }
+
+    @Override
+    public void removePosition(long id) {
+        Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        List<Employee> employeesPosition = employeeRepository.findAllByPosition(position);
+
+        for (Employee employee : employeesPosition) {
+            employee.setPosition(positionRepository.findByPositionName("DEFAULT_POSITION"));
+            employeeRepository.save(employee);
+        }
+
+        positionRepository.deleteById(id);
     }
 
     @Override
@@ -87,8 +110,8 @@ public class PositionServiceImpl implements PositionService {
 
         List<Employee> employeesPosition = employeeRepository.findAllByPosition(position);
 
-        for (Employee employee: employeesPosition) {
-            if(Objects.equals(employee.getId(), newEmployee.getId())){
+        for (Employee employee : employeesPosition) {
+            if (Objects.equals(employee.getId(), newEmployee.getId())) {
                 return;
             }
         }
@@ -97,36 +120,33 @@ public class PositionServiceImpl implements PositionService {
 
         employeesPosition.add(newEmployee);
 
-       position.setEmployees(employeesPosition);
+        position.setEmployees(employeesPosition);
 
-       positionRepository.save(position);
+        positionRepository.save(position);
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void removeEmployee(long idEm, long idPos) {
         Position position = positionRepository.findById(idPos).orElseThrow(ObjectNotFoundException::new);
         Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
 
         position.getEmployees().remove(currentEmployee);
-        // Премахване на позицията от служителя
+
         currentEmployee.setPosition(positionRepository.findByPositionName("DEFAULT_POSITION"));
 
-        // Запазване на промените
         positionRepository.save(position);
         employeeRepository.save(currentEmployee);
     }
 
-    @Override
-    public void removePosition(long id) {
-        Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+    private List<Employee> setPositionInCurrentEmployee(Position position) {
         List<Employee> employeesPosition = employeeRepository.findAllByPosition(position);
 
         for (Employee employee : employeesPosition) {
-           employee.setPosition(positionRepository.findByPositionName("DEFAULT_POSITION"));
-           employeeRepository.save(employee);
+            employee.setPosition(position);
+            employeeRepository.save(employee);
         }
 
-        positionRepository.deleteById(id);
+        return employeesPosition;
     }
 }
