@@ -31,12 +31,12 @@ public class DepartmentController {
 
         return ResponseEntity.ok(departmentService.getDepartmentByID(id));
     }
-
+    //edit department
     @PostMapping("/edit")
-    public ResponseEntity<AddDepartmentDTO> editDepartment(
-            @RequestBody AddDepartmentDTO addDepartmentDTO
+    public ResponseEntity<Void> editDepartment(
+            @RequestBody DepartmentDTO departmentDTO
             ){
-        departmentService.editDepartment(addDepartmentDTO);
+        departmentService.editDepartment(departmentDTO);
 
         return ResponseEntity.ok().build();
     }

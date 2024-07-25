@@ -11,7 +11,7 @@ public interface DepartmentService {
     List<String> getAllDepartments();
     List<DepartmentDTO> getAllDepartmentsInDTOS();
     DepartmentDTO getDepartmentByID(long id);
-    void editDepartment(AddDepartmentDTO addDepartmentDTO);
+    void editDepartment(DepartmentDTO departmentDTO);
     void removeDepartment(long id);
     void addDepartment(AddDepartmentDTO addDepartmentDTO);
     boolean isExistDepartment(String name);

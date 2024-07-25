@@ -53,7 +53,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDTO getDepartmentByID(long id) {
-        Department department = departmentRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        Department department = departmentRepository.findById(id);
 
         DepartmentDTO departmentDTO = mapToDepartmentDTO(department);
 
@@ -61,20 +61,32 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void editDepartment(AddDepartmentDTO addDepartmentDTO) {
-        Department department = departmentRepository.findByDepartmentName(addDepartmentDTO.getDepartmentName());
-        Employee newManager = findEmployeeByFullName(addDepartmentDTO.getManager());
+    public void editDepartment(DepartmentDTO departmentDTO) {
+        Department editDepartment = departmentRepository.findById(departmentDTO.getId());
+        Employee newManager = findEmployeeByFullName(departmentDTO.getManager());
 
-        department.setManager(newManager);
-        department.setEmployees(employeeRepository.findAllByDepartment(department));
-        department.setProjects(projectRepository.findAllByResponsibleDepartment(department));
+        editDepartment.setDepartmentName(departmentDTO.getDepartmentName());
+        editDepartment.setDescription(departmentDTO.getDescriptions());
+        editDepartment.setManager(newManager);
 
-        departmentRepository.save(department);
+        departmentRepository.save(editDepartment);
+
+        List<Employee> departmentEmployees = editDepartment.getEmployees();
+        for (Employee employee : departmentEmployees) {
+            employee.setDepartment(editDepartment);
+            employeeRepository.save(employee);
+        }
+
+        List<Project> departmentProjects = editDepartment.getProjects();
+        for (Project project : departmentProjects) {
+            project.setResponsibleDepartment(editDepartment);
+            projectRepository.save(project);
+        }
     }
 
     @Override
     public void removeDepartment(long id) {
-        Department departmentForRemove = departmentRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        Department departmentForRemove = departmentRepository.findById(id);
         Department defaultDep = departmentRepository.findByDepartmentName("DEFAULT_DEPARTMENT");
 
 
