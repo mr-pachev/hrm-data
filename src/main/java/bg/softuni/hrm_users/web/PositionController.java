@@ -17,7 +17,7 @@ public class PositionController {
     }
 
     @GetMapping("/all-positions")
-    public ResponseEntity<List<String>> getAllPosition(){
+    public ResponseEntity<List<String>> getAllPositionName(){
         List<String> positionNames = positionService.getAllPositionName();
 
         return ResponseEntity.ok(positionNames);
@@ -31,10 +31,43 @@ public class PositionController {
     }
 
     @GetMapping("/all-employees/{id}")
-    public ResponseEntity<List<EmployeeDTO>> getAllEmployeesDTOS(@PathVariable("id") long id){
+    public ResponseEntity<List<EmployeeDTO>> getAllPositionEmployeesDTOS(@PathVariable("id") long id){
         List<EmployeeDTO> employeeDTOS = positionService.allPositionEmployees(id);
 
         return ResponseEntity.ok(employeeDTOS);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PositionDTO> findPositionById(@PathVariable("id") long id){
+        PositionDTO positionDTO = positionService.getPositionById(id);
+
+        return ResponseEntity.ok(positionDTO);
+    }
+
+    @PostMapping()
+    public ResponseEntity<Void> addPosition(@RequestBody AddPositionDTO addPositionDTO
+    ){
+        positionService.addNewPosition(addPositionDTO);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<PositionDTO> editPosition(
+            @RequestBody PositionDTO positionDTO
+    ){
+        positionService.editPosition(positionDTO);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePosition(@PathVariable("id") Long id){
+        positionService.removePosition(id);
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
     @PostMapping("/add-employee/{idPos}")
@@ -56,36 +89,4 @@ public class PositionController {
                 .build();
     }
 
-    @PostMapping()
-    public ResponseEntity<Void> addPosition(@RequestBody AddPositionDTO addPositionDTO
-                                            ){
-        positionService.addNewPosition(addPositionDTO);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<PositionDTO> findPositionById(@PathVariable("id") long id){
-        PositionDTO positionDTO = positionService.getPositionById(id);
-
-        return ResponseEntity.ok(positionDTO);
-    }
-
-    @PostMapping("/edit")
-    public ResponseEntity<PositionDTO> editPosition(
-            @RequestBody PositionDTO positionDTO
-    ){
-        positionService.editPosition(positionDTO);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePosition(@PathVariable("id") Long id){
-        positionService.removePosition(id);
-
-        return ResponseEntity
-                .noContent()
-                .build();
-    }
 }

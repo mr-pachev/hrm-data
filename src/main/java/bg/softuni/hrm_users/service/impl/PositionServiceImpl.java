@@ -6,7 +6,6 @@ import bg.softuni.hrm_users.model.dto.PositionDTO;
 import bg.softuni.hrm_users.model.dto.PositionEmployeesDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Position;
-import bg.softuni.hrm_users.model.entity.Project;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.PositionRepository;
 import bg.softuni.hrm_users.service.PositionService;
@@ -14,7 +13,6 @@ import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
 import bg.softuni.hrm_users.util.EmployeeMapperUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
