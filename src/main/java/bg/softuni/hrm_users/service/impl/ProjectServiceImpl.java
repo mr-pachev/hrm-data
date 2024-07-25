@@ -35,18 +35,15 @@ public class ProjectServiceImpl implements ProjectService {
         this.mapper = mapper;
     }
 
+    //all projects
     @Override
-    @Transactional
-    public void removeEmployee(long idEm, long idPr) {
-        Project project = projectRepository.findById(idPr).orElseThrow(ObjectNotFoundException::new);
-        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
+    public List<ProjectDTO> getAllProjectsDTOS() {
+        List<Project> allProjects = projectRepository.findAll();
 
-        project.removeEmployee(currentEmployee);
-
-        projectRepository.save(project);
-        employeeRepository.save(currentEmployee);
+        return getProjectDTOS(allProjects);
     }
 
+    //creat project
     @Override
     public void creatProject(AddProjectDTO addProjectDTO) {
         Project project = mapper.map(addProjectDTO, Project.class);
@@ -58,13 +55,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);
     }
 
-    @Override
-    public List<ProjectDTO> getAllProjectsDTOS() {
-        List<Project> allProjects = projectRepository.findAll();
-
-        return getProjectDTOS(allProjects);
-    }
-
+    //get project by id
     @Override
     public ProjectDTO getProjectById(long id) {
         Project project = projectRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
@@ -75,6 +66,14 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDTO;
     }
 
+    //edit project
+    @Override
+    public void editProject(ProjectDTO projectDTO) {
+        Project project = map(projectDTO);
+        projectRepository.save(project);
+    }
+
+    //delete project
     @Override
     public void removeProject(long id) {
         List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
@@ -87,6 +86,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.deleteById(id);
     }
 
+    //all employees from current project
     @Override
     public List<EmployeeDTO> allProjectEmployees(long id) {
         List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
@@ -94,8 +94,9 @@ public class ProjectServiceImpl implements ProjectService {
         return EmployeeMapperUtil.mapToEmployeeDTOS(projectEmployees);
     }
 
+    //all employees names from current project
     @Override
-    public List<ProjectEmployeeDTO> allEmployees() {
+    public List<ProjectEmployeeDTO> allEmployeesNames() {
         List<Employee> employees = employeeRepository.findAll();
 
         List<ProjectEmployeeDTO> projectEmployeeDTOS = new ArrayList<>();
@@ -113,12 +114,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectEmployeeDTOS;
     }
 
-    @Override
-    public void editProject(ProjectDTO projectDTO) {
-    Project project = map(projectDTO);
-        projectRepository.save(project);
-    }
-
+    //add employee in current project
     @Override
     public void addEmployee(ProjectEmployeeDTO projectEmployeeDTO, long idPr) {
         Project project = projectRepository.findById(idPr).orElseThrow(ObjectNotFoundException::new);
@@ -144,6 +140,19 @@ public class ProjectServiceImpl implements ProjectService {
         employees.add(employee);
         project.setEmployees(employees);
         projectRepository.save(project);
+    }
+
+    //delete current employee from current project
+    @Override
+    @Transactional
+    public void removeEmployee(long idEm, long idPr) {
+        Project project = projectRepository.findById(idPr).orElseThrow(ObjectNotFoundException::new);
+        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
+
+        project.removeEmployee(currentEmployee);
+
+        projectRepository.save(project);
+        employeeRepository.save(currentEmployee);
     }
 
     private List<ProjectDTO> getProjectDTOS(List<Project> allProjects) {

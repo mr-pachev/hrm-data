@@ -1,7 +1,6 @@
 package bg.softuni.hrm_users.service.impl;
 
-import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
-import bg.softuni.hrm_users.model.dto.DepartmentDTO;
+import bg.softuni.hrm_users.model.dto.*;
 import bg.softuni.hrm_users.model.entity.Department;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Project;
@@ -10,6 +9,7 @@ import bg.softuni.hrm_users.repository.EmployeeRepository;
 import bg.softuni.hrm_users.repository.ProjectRepository;
 import bg.softuni.hrm_users.service.DepartmentService;
 import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
+import bg.softuni.hrm_users.util.EmployeeMapperUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +31,17 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.mapper = mapper;
     }
 
+    //all department names
     @Override
-    public List<String> getAllDepartments() {
+    public List<String> getAllDepartmentNames() {
         return departmentRepository.findAll().stream()
                 .map(Department::getDepartmentName)
                 .collect(Collectors.toList());
     }
 
+    //all departments
     @Override
-    public List<DepartmentDTO> getAllDepartmentsInDTOS() {
+    public List<DepartmentDTO> getAllDepartments() {
         List<Department> allDepartments = departmentRepository.findAll();
         List<DepartmentDTO> departmentDTOS = new ArrayList<>();
 
@@ -51,6 +53,26 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentDTOS;
     }
 
+    //add department
+    @Override
+    public void addDepartment(AddDepartmentDTO addDepartmentDTO) {
+        Department newDepartment = new Department();
+        Employee manager = findEmployeeByFullName(addDepartmentDTO.getManager());
+
+        newDepartment.setDepartmentName(addDepartmentDTO.getDepartmentName());
+        newDepartment.setDescription(addDepartmentDTO.getDescriptions());
+        newDepartment.setManager(manager);
+
+        departmentRepository.save(newDepartment);
+    }
+
+    //check is exist department by name
+    @Override
+    public boolean isExistDepartment(String name) {
+        return departmentRepository.existsByDepartmentName(name);
+    }
+
+    //get department by id
     @Override
     public DepartmentDTO getDepartmentByID(long id) {
         Department department = departmentRepository.findById(id);
@@ -60,6 +82,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentDTO;
     }
 
+    //edit department
     @Override
     public void editDepartment(DepartmentDTO departmentDTO) {
         Department editDepartment = departmentRepository.findById(departmentDTO.getId());
@@ -84,6 +107,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
     }
 
+    //delete department
     @Override
     public void removeDepartment(long id) {
         Department departmentForRemove = departmentRepository.findById(id);
@@ -103,22 +127,35 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentRepository.delete(departmentForRemove);
     }
 
+    //all employees from current department
     @Override
-    public void addDepartment(AddDepartmentDTO addDepartmentDTO) {
-        Department newDepartment = new Department();
-        Employee manager = findEmployeeByFullName(addDepartmentDTO.getManager());
+    public List<EmployeeDTO> allDepartmentEmployees(long id) {
+        Department department = departmentRepository.findById(id);
+        List<Employee> departmentEmployees = employeeRepository.findAllByDepartment(department);
 
-        newDepartment.setDepartmentName(addDepartmentDTO.getDepartmentName());
-        newDepartment.setDescription(addDepartmentDTO.getDescriptions());
-        newDepartment.setManager(manager);
-
-        departmentRepository.save(newDepartment);
+        return EmployeeMapperUtil.mapToEmployeeDTOS(departmentEmployees);
     }
 
+    //all employee names from current department
     @Override
-    public boolean isExistDepartment(String name) {
-        return departmentRepository.existsByDepartmentName(name);
+    public List<DepartmentEmployeeDTO> allEmployeesNames() {
+        List<Employee> employees = employeeRepository.findAll();
+
+        List<DepartmentEmployeeDTO> departmentEmployeeDTOS = new ArrayList<>();
+        for (Employee employee : employees) {
+            String fullName = employee.getFirstName() + " " +
+                    employee.getMiddleName()  + " " +
+                    employee.getLastName();
+            DepartmentEmployeeDTO departmentEmployeeDTO = new DepartmentEmployeeDTO();
+            departmentEmployeeDTO.setId(employee.getId());
+            departmentEmployeeDTO.setFullName(fullName);
+
+            departmentEmployeeDTOS.add(departmentEmployeeDTO);
+        }
+
+        return departmentEmployeeDTOS;
     }
+
 
     private DepartmentDTO mapToDepartmentDTO(Department department) {
         DepartmentDTO departmentDTO = new DepartmentDTO();
@@ -146,6 +183,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         return departmentDTO;
     }
+
+
 
     private Employee findEmployeeByFullName (String fullName){
         String firstName = fullName.split(" ")[0];

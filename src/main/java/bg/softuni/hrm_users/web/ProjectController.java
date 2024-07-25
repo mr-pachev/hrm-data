@@ -18,6 +18,7 @@ public class ProjectController {
     }
 
 
+    //get all projects
     @GetMapping()
     public ResponseEntity<List<ProjectDTO>> getAllProjects(){
         List<ProjectDTO> projectDTOS = projectService.getAllProjectsDTOS();
@@ -25,6 +26,8 @@ public class ProjectController {
         return ResponseEntity.ok(projectDTOS);
     }
 
+
+    //get project by id
     @GetMapping("/{id}")
     public ResponseEntity<ProjectDTO> findProjectById(@PathVariable("id") long id){
         ProjectDTO projectDTO = projectService.getProjectById(id);
@@ -32,13 +35,15 @@ public class ProjectController {
         return ResponseEntity.ok(projectDTO);
     }
 
+    //get employees names from current project
     @GetMapping("/all-employees")
     public ResponseEntity<List<ProjectEmployeeDTO>> getAllEmployees(){
-        List<ProjectEmployeeDTO> employees = projectService.allEmployees();
+        List<ProjectEmployeeDTO> employees = projectService.allEmployeesNames();
 
         return ResponseEntity.ok(employees);
     }
 
+    //get employees from current project
     @GetMapping("/employees/{id}")
     public ResponseEntity<List<EmployeeDTO>> getAllProjectEmployees(@PathVariable("id") long id){
         List<EmployeeDTO> employeeDTOS = projectService.allProjectEmployees(id);
@@ -46,6 +51,7 @@ public class ProjectController {
         return ResponseEntity.ok(employeeDTOS);
     }
 
+    //creat project
     @PostMapping()
     public ResponseEntity<Void> createProject(
             @RequestBody AddProjectDTO addProjectDTO
@@ -62,6 +68,7 @@ public class ProjectController {
                 .build();
     }
 
+    //edit project
     @PostMapping("/edit")
     public ResponseEntity<ProjectDTO> editProject(
             @RequestBody ProjectDTO projectDTO
@@ -71,6 +78,7 @@ public class ProjectController {
         return ResponseEntity.ok().build();
     }
 
+    //add employee in current project
     @PostMapping("/add-employee/{idPr}")
     public ResponseEntity<Void> addEmployee(@PathVariable("idPr") Long idPr,
                                             @RequestBody ProjectEmployeeDTO projectEmployeeDTO
@@ -80,6 +88,7 @@ public class ProjectController {
         return ResponseEntity.ok().build();
     }
 
+    //delete current employee from current project
     @DeleteMapping("/employee/{idEm}/{idPr}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable("idEm") Long idEm,
                                                @PathVariable("idPr")Long idPr){
@@ -90,6 +99,7 @@ public class ProjectController {
                 .build();
     }
 
+    //delete project
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable("id") Long id){
         projectService.removeProject(id);

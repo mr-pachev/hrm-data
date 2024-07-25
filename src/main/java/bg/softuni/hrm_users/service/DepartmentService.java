@@ -1,18 +1,21 @@
 package bg.softuni.hrm_users.service;
 
-import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
-import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
-import bg.softuni.hrm_users.model.dto.DepartmentDTO;
-import bg.softuni.hrm_users.model.dto.EmployeeDTO;
+import bg.softuni.hrm_users.model.dto.*;
 
 import java.util.List;
 
 public interface DepartmentService {
-    List<String> getAllDepartments();
-    List<DepartmentDTO> getAllDepartmentsInDTOS();
+    //department
+    List<String> getAllDepartmentNames();
+    List<DepartmentDTO> getAllDepartments();
+    void addDepartment(AddDepartmentDTO addDepartmentDTO);
+    boolean isExistDepartment(String name);
     DepartmentDTO getDepartmentByID(long id);
     void editDepartment(DepartmentDTO departmentDTO);
     void removeDepartment(long id);
-    void addDepartment(AddDepartmentDTO addDepartmentDTO);
-    boolean isExistDepartment(String name);
+
+    //department employees
+    List<EmployeeDTO> allDepartmentEmployees(long id);
+    List<DepartmentEmployeeDTO> allEmployeesNames();
+
 }
