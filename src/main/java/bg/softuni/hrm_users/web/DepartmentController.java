@@ -86,5 +86,15 @@ public class DepartmentController {
         return ResponseEntity.ok(employeeDTOS);
     }
 
+    //add employee in current department
+    @PostMapping("/add-employee/{idDep}")
+    public ResponseEntity<Void> addEmployee(@PathVariable("idDep") Long idDep,
+                                            @RequestBody DepartmentEmployeeDTO departmentEmployeeDTO
+    ){
+
+        departmentService.addEmployee(departmentEmployeeDTO, idDep);
+
+        return ResponseEntity.ok().build();
+    }
 
 }

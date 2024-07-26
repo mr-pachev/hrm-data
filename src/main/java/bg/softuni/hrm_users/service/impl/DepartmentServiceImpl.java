@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -154,6 +155,26 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
 
         return departmentEmployeeDTOS;
+    }
+
+    @Override
+    public void addEmployee(DepartmentEmployeeDTO departmentEmployeeDTO, long idDep) {
+        Department department = departmentRepository.findById(idDep);
+
+        String firstName = departmentEmployeeDTO.getFullName().split(" ")[0];
+        String middleName = departmentEmployeeDTO.getFullName().split(" ")[1];
+        String lastName = departmentEmployeeDTO.getFullName().split(" ")[2];
+        Employee employee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
+
+        employee.setDepartment(department);
+        employeeRepository.save(employee);
+
+        List<Employee> employeesDepartment = department.getEmployees();
+
+        employeesDepartment.add(employee);
+        department.setEmployees(employeesDepartment);
+
+        departmentRepository.save(department);
     }
 
 
