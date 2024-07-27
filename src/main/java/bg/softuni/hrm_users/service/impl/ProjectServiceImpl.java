@@ -35,7 +35,7 @@ public class ProjectServiceImpl implements ProjectService {
         this.mapper = mapper;
     }
 
-    //all projects
+    //get all projects
     @Override
     public List<ProjectDTO> getAllProjectsDTOS() {
         List<Project> allProjects = projectRepository.findAll();
@@ -43,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
         return getProjectDTOS(allProjects);
     }
 
-    //creat project
+    //add new project
     @Override
     public void creatProject(AddProjectDTO addProjectDTO) {
         Project project = mapper.map(addProjectDTO, Project.class);
@@ -86,7 +86,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.deleteById(id);
     }
 
-    //all employees from current project
+    //get all employees from current project
     @Override
     public List<EmployeeDTO> allProjectEmployees(long id) {
         List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
@@ -94,7 +94,7 @@ public class ProjectServiceImpl implements ProjectService {
         return EmployeeMapperUtil.mapToEmployeeDTOS(projectEmployees);
     }
 
-    //all employees names from current project
+    //get all employees names
     @Override
     public List<ProjectEmployeeDTO> allEmployeesNames() {
         List<Employee> employees = employeeRepository.findAll();
@@ -155,6 +155,7 @@ public class ProjectServiceImpl implements ProjectService {
         employeeRepository.save(currentEmployee);
     }
 
+
     private List<ProjectDTO> getProjectDTOS(List<Project> allProjects) {
         List<ProjectDTO> projectDTOS = new ArrayList<>();
 
@@ -176,6 +177,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectDTOS;
     }
+
 
     private List<String> mapToStringList(long id) {
         List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
