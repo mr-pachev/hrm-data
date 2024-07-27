@@ -27,12 +27,15 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    //get all positions names
     @GetMapping("/all-positions")
     public ResponseEntity<List<String>> getAllPosition(){
        List<String> positionNames = positionService.getAllPositionName();
 
         return ResponseEntity.ok(positionNames);
     }
+
+    //get all departments names
     @GetMapping("/all-departments")
     public ResponseEntity<List<String>> getAllDepartments(){
        List<String> departmentNames = departmentService.getAllDepartmentNames();
@@ -40,6 +43,7 @@ public class EmployeeController {
         return ResponseEntity.ok(departmentNames);
     }
 
+    //get all educations names
     @GetMapping("/all-educations")
     public ResponseEntity<List<String>> getAllEducations(){
         List<String> educationNames = educationService.getAllEducations();
@@ -47,6 +51,7 @@ public class EmployeeController {
         return ResponseEntity.ok(educationNames);
     }
 
+    //get all employees
     @GetMapping()
     public ResponseEntity<List<EmployeeDTO>> getAllEmployee(){
         List<EmployeeDTO> employeeDTOS = employeeService.getAllEmployees();
@@ -54,6 +59,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeDTOS);
     }
 
+    //add new employee
     @PostMapping()
     public ResponseEntity<EmployeeDTO> creatEmployee(
             @RequestBody AddEmployeeDTO addEmployeeDTO
@@ -70,6 +76,14 @@ public class EmployeeController {
                 ).body(employeeDTO);
     }
 
+    //get employee by id
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> findEmployeeById(@PathVariable("id") long id){
+
+        return ResponseEntity.ok(employeeService.getEmployeeByID(id));
+    }
+
+    //edit employee
     @PostMapping("/edit")
     public ResponseEntity<EmployeeDTO> editEmployee(
             @RequestBody EmployeeDTO employeeDTO
@@ -79,6 +93,7 @@ public class EmployeeController {
         return ResponseEntity.ok().build();
     }
 
+    //delete employee
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable("id") long id){
         employeeService.removeEmployee(id);
@@ -87,11 +102,4 @@ public class EmployeeController {
                 .noContent()
                 .build();
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> findEmployeeById(@PathVariable("id") long id){
-
-        return ResponseEntity.ok(employeeService.getEmployeeByID(id));
-    }
-
 }

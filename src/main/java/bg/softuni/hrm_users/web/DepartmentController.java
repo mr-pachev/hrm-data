@@ -26,7 +26,7 @@ public class DepartmentController {
         return ResponseEntity.ok(departmentDTOS);
     }
 
-    //creat department
+    //add new department
     @PostMapping()
     public ResponseEntity<Void> createDepartment(
             @RequestBody AddDepartmentDTO addDepartmentDTO
@@ -63,7 +63,7 @@ public class DepartmentController {
                 .build();
     }
 
-    //get employees names from current department
+    //get all employees names
     @GetMapping("/all-employees")
     public ResponseEntity<List<DepartmentEmployeeDTO>> getAllEmployees(){
         List<DepartmentEmployeeDTO> employees = departmentService.allEmployeesNames();
