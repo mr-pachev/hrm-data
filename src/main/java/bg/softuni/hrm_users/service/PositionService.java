@@ -27,7 +27,7 @@ public interface PositionService {
     List<EmployeeDTO> allPositionEmployees(long id);
 
     //add current employee in current position
-    void addEmployee(PositionEmployeesDTO positionEmployeesDTO, long idPos);
+    void addEmployee(EmployeeNameDTO employeeNameDTO, long idPos);
 
     //delete current employee from current position
     void removeEmployee(long idEm, long idPos);

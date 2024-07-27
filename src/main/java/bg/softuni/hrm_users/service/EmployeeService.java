@@ -3,10 +3,14 @@ package bg.softuni.hrm_users.service;
 
 import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
+import bg.softuni.hrm_users.model.dto.EmployeeNameDTO;
 
 import java.util.List;
 
 public interface EmployeeService {
+    //get all employees names
+    List<EmployeeNameDTO> allEmployeesNames();
+
     //get all employees
     List<EmployeeDTO> getAllEmployees();
 

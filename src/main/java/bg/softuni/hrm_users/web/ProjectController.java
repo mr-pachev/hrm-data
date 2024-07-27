@@ -70,14 +70,6 @@ public class ProjectController {
                 .build();
     }
 
-    //get all employees names
-    @GetMapping("/all-employees")
-    public ResponseEntity<List<ProjectEmployeeDTO>> getAllEmployees(){
-        List<ProjectEmployeeDTO> employees = projectService.allEmployeesNames();
-
-        return ResponseEntity.ok(employees);
-    }
-
     //get employees from current project
     @GetMapping("/employees/{id}")
     public ResponseEntity<List<EmployeeDTO>> getAllProjectEmployees(@PathVariable("id") long id){
@@ -89,9 +81,9 @@ public class ProjectController {
     //add current employee in current project
     @PostMapping("/add-employee/{idPr}")
     public ResponseEntity<Void> addEmployee(@PathVariable("idPr") Long idPr,
-                                            @RequestBody ProjectEmployeeDTO projectEmployeeDTO
+                                            @RequestBody EmployeeNameDTO employeeNameDTO
     ){
-        projectService.addEmployee(projectEmployeeDTO, idPr);
+        projectService.addEmployee(employeeNameDTO, idPr);
 
         return ResponseEntity.ok().build();
     }

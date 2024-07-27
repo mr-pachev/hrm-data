@@ -2,6 +2,7 @@ package bg.softuni.hrm_users.service.impl;
 
 import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
+import bg.softuni.hrm_users.model.dto.EmployeeNameDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.enums.EducationName;
 import bg.softuni.hrm_users.repository.DepartmentRepository;
@@ -32,6 +33,26 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.positionRepository = positionRepository;
         this.departmentRepository = departmentRepository;
         this.educationRepository = educationRepository;
+    }
+
+    //get all employees names
+    @Override
+    public List<EmployeeNameDTO> allEmployeesNames() {
+        List<Employee> employees = employeeRepository.findAll();
+
+        List<EmployeeNameDTO> departmentEmployeeDTOS = new ArrayList<>();
+        for (Employee employee : employees) {
+            String fullName = employee.getFirstName() + " " +
+                    employee.getMiddleName()  + " " +
+                    employee.getLastName();
+            EmployeeNameDTO employeeNameDTO = new EmployeeNameDTO();
+            employeeNameDTO.setId(employee.getId());
+            employeeNameDTO.setFullName(fullName);
+
+            departmentEmployeeDTOS.add(employeeNameDTO);
+        }
+
+        return departmentEmployeeDTOS;
     }
 
     //get all employees

@@ -80,9 +80,9 @@ public class PositionController {
     //add current employee in current position
     @PostMapping("/add-employee/{idPos}")
     public ResponseEntity<Void> addEmployee(@PathVariable("idPos") Long idPos,
-                                            @RequestBody PositionEmployeesDTO positionEmployeesDTO
+                                            @RequestBody EmployeeNameDTO employeeNameDTO
     ){
-        positionService.addEmployee(positionEmployeesDTO, idPos);
+        positionService.addEmployee(employeeNameDTO, idPos);
 
         return ResponseEntity.ok().build();
     }

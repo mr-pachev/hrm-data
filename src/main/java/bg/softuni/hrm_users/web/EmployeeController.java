@@ -2,6 +2,7 @@ package bg.softuni.hrm_users.web;
 
 import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
+import bg.softuni.hrm_users.model.dto.EmployeeNameDTO;
 import bg.softuni.hrm_users.service.DepartmentService;
 import bg.softuni.hrm_users.service.EducationService;
 import bg.softuni.hrm_users.service.EmployeeService;
@@ -49,6 +50,14 @@ public class EmployeeController {
         List<String> educationNames = educationService.getAllEducations();
 
         return ResponseEntity.ok(educationNames);
+    }
+
+    //get all employees names
+    @GetMapping("/all-employees")
+    public ResponseEntity<List<EmployeeNameDTO>> getAllEmployees(){
+        List<EmployeeNameDTO> employees = employeeService.allEmployeesNames();
+
+        return ResponseEntity.ok(employees);
     }
 
     //get all employees

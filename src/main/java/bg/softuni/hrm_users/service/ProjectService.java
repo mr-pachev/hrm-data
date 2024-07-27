@@ -24,11 +24,8 @@ public interface ProjectService {
     //get all employees from current project
     List<EmployeeDTO> allProjectEmployees(long id);
 
-    //get all employees names
-    List<ProjectEmployeeDTO> allEmployeesNames();
-
     //add current employee in current project
-    void addEmployee(ProjectEmployeeDTO projectEmployeeDTO, long idPr);
+    void addEmployee(EmployeeNameDTO employeeNameDTO, long idPr);
 
     //delete current employee from current project
     void removeEmployee(long idEm, long idPr);

@@ -2,8 +2,8 @@ package bg.softuni.hrm_users.service.impl;
 
 import bg.softuni.hrm_users.model.dto.AddPositionDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
+import bg.softuni.hrm_users.model.dto.EmployeeNameDTO;
 import bg.softuni.hrm_users.model.dto.PositionDTO;
-import bg.softuni.hrm_users.model.dto.PositionEmployeesDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Position;
 import bg.softuni.hrm_users.repository.EmployeeRepository;
@@ -100,12 +100,12 @@ public class PositionServiceImpl implements PositionService {
 
     //add current employee in current position
     @Override
-    public void addEmployee(PositionEmployeesDTO positionEmployeesDTO, long idPos) {
+    public void addEmployee(EmployeeNameDTO employeeNameDTO, long idPos) {
         Position position = positionRepository.findById(idPos).orElseThrow(ObjectNotFoundException::new);
 
-        String firstName = positionEmployeesDTO.getFullName().split(" ")[0];
-        String middleName = positionEmployeesDTO.getFullName().split(" ")[1];
-        String lastName = positionEmployeesDTO.getFullName().split(" ")[2];
+        String firstName = employeeNameDTO.getFullName().split(" ")[0];
+        String middleName = employeeNameDTO.getFullName().split(" ")[1];
+        String lastName = employeeNameDTO.getFullName().split(" ")[2];
 
         Employee newEmployee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
 

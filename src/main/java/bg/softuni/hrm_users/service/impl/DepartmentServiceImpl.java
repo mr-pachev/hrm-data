@@ -137,34 +137,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         return EmployeeMapperUtil.mapToEmployeeDTOS(departmentEmployees);
     }
 
-    //get all employees names
-    @Override
-    public List<DepartmentEmployeeDTO> allEmployeesNames() {
-        List<Employee> employees = employeeRepository.findAll();
-
-        List<DepartmentEmployeeDTO> departmentEmployeeDTOS = new ArrayList<>();
-        for (Employee employee : employees) {
-            String fullName = employee.getFirstName() + " " +
-                    employee.getMiddleName()  + " " +
-                    employee.getLastName();
-            DepartmentEmployeeDTO departmentEmployeeDTO = new DepartmentEmployeeDTO();
-            departmentEmployeeDTO.setId(employee.getId());
-            departmentEmployeeDTO.setFullName(fullName);
-
-            departmentEmployeeDTOS.add(departmentEmployeeDTO);
-        }
-
-        return departmentEmployeeDTOS;
-    }
-
     //add current employee in current department
     @Override
-    public void addEmployee(DepartmentEmployeeDTO departmentEmployeeDTO, long idDep) {
+    public void addEmployee(EmployeeNameDTO employeeNameDTO, long idDep) {
         Department department = departmentRepository.findById(idDep);
 
-        String firstName = departmentEmployeeDTO.getFullName().split(" ")[0];
-        String middleName = departmentEmployeeDTO.getFullName().split(" ")[1];
-        String lastName = departmentEmployeeDTO.getFullName().split(" ")[2];
+        String firstName = employeeNameDTO.getFullName().split(" ")[0];
+        String middleName = employeeNameDTO.getFullName().split(" ")[1];
+        String lastName = employeeNameDTO.getFullName().split(" ")[2];
         Employee employee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
 
         employee.setDepartment(department);

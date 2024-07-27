@@ -1,10 +1,13 @@
 package bg.softuni.hrm_users.web;
 
-import bg.softuni.hrm_users.model.dto.*;
+import bg.softuni.hrm_users.model.dto.AddDepartmentDTO;
+import bg.softuni.hrm_users.model.dto.DepartmentDTO;
+import bg.softuni.hrm_users.model.dto.EmployeeDTO;
+import bg.softuni.hrm_users.model.dto.EmployeeNameDTO;
 import bg.softuni.hrm_users.service.DepartmentService;
+import bg.softuni.hrm_users.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -14,8 +17,11 @@ public class DepartmentController {
 
     private final DepartmentService departmentService;
 
-    public DepartmentController(DepartmentService departmentService) {
+    private final EmployeeService employeeService;
+
+    public DepartmentController(DepartmentService departmentService, EmployeeService employeeService) {
         this.departmentService = departmentService;
+        this.employeeService = employeeService;
     }
 
     //get all departments
@@ -65,8 +71,8 @@ public class DepartmentController {
 
     //get all employees names
     @GetMapping("/all-employees")
-    public ResponseEntity<List<DepartmentEmployeeDTO>> getAllEmployees(){
-        List<DepartmentEmployeeDTO> employees = departmentService.allEmployeesNames();
+    public ResponseEntity<List<EmployeeNameDTO>> getAllEmployees(){
+        List<EmployeeNameDTO> employees = employeeService.allEmployeesNames();
 
         return ResponseEntity.ok(employees);
     }
@@ -82,10 +88,10 @@ public class DepartmentController {
     //add employee in current department
     @PostMapping("/add-employee/{idDep}")
     public ResponseEntity<Void> addEmployee(@PathVariable("idDep") Long idDep,
-                                            @RequestBody DepartmentEmployeeDTO departmentEmployeeDTO
+                                            @RequestBody EmployeeNameDTO employeeNameDTO
     ){
 
-        departmentService.addEmployee(departmentEmployeeDTO, idDep);
+        departmentService.addEmployee(employeeNameDTO, idDep);
 
         return ResponseEntity.ok().build();
     }

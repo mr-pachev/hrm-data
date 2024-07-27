@@ -1,9 +1,6 @@
 package bg.softuni.hrm_users.service.impl;
 
-import bg.softuni.hrm_users.model.dto.AddProjectDTO;
-import bg.softuni.hrm_users.model.dto.EmployeeDTO;
-import bg.softuni.hrm_users.model.dto.ProjectDTO;
-import bg.softuni.hrm_users.model.dto.ProjectEmployeeDTO;
+import bg.softuni.hrm_users.model.dto.*;
 import bg.softuni.hrm_users.model.entity.Employee;
 import bg.softuni.hrm_users.model.entity.Project;
 import bg.softuni.hrm_users.repository.DepartmentRepository;
@@ -94,34 +91,14 @@ public class ProjectServiceImpl implements ProjectService {
         return EmployeeMapperUtil.mapToEmployeeDTOS(projectEmployees);
     }
 
-    //get all employees names
-    @Override
-    public List<ProjectEmployeeDTO> allEmployeesNames() {
-        List<Employee> employees = employeeRepository.findAll();
-
-        List<ProjectEmployeeDTO> projectEmployeeDTOS = new ArrayList<>();
-        for (Employee employee : employees) {
-            String fullName = employee.getFirstName() + " " +
-                    employee.getMiddleName()  + " " +
-                    employee.getLastName();
-            ProjectEmployeeDTO projectEmployeeDTO = new ProjectEmployeeDTO();
-            projectEmployeeDTO.setId(employee.getId());
-            projectEmployeeDTO.setFullName(fullName);
-
-            projectEmployeeDTOS.add(projectEmployeeDTO);
-        }
-
-        return projectEmployeeDTOS;
-    }
-
     //add employee in current project
     @Override
-    public void addEmployee(ProjectEmployeeDTO projectEmployeeDTO, long idPr) {
+    public void addEmployee(EmployeeNameDTO employeeNameDTO, long idPr) {
         Project project = projectRepository.findById(idPr).orElseThrow(ObjectNotFoundException::new);
 
-        String firstName = projectEmployeeDTO.getFullName().split(" ")[0];
-        String middleName = projectEmployeeDTO.getFullName().split(" ")[1];
-        String lastName = projectEmployeeDTO.getFullName().split(" ")[2];
+        String firstName = employeeNameDTO.getFullName().split(" ")[0];
+        String middleName = employeeNameDTO.getFullName().split(" ")[1];
+        String lastName = employeeNameDTO.getFullName().split(" ")[2];
         Employee employee = employeeRepository.findByFirstNameAndMiddleNameAndLastName(firstName, middleName, lastName).orElseThrow(ObjectNotFoundException::new);
 
         List<Project> employeeProjects = employee.getProjects();

@@ -29,11 +29,8 @@ public interface DepartmentService {
     //get all employees from current department
     List<EmployeeDTO> allDepartmentEmployees(long id);
 
-    //get all employees names
-    List<DepartmentEmployeeDTO> allEmployeesNames();
-
     //add current employee in current department
-    void addEmployee(DepartmentEmployeeDTO departmentEmployeeDTO, long idDep);
+    void addEmployee(EmployeeNameDTO employeeNameDTO, long idDep);
 
     //delete employee from current department
     void removeEmployee(long idEm, long idDep);
