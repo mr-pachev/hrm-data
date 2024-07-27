@@ -15,6 +15,7 @@ public class EducationServiceImpl implements EducationService {
         this.educationRepository = educationRepository;
     }
 
+    //get all educations names
     @Override
     public List<String> getAllEducations() {
         return educationRepository.findAll().stream()

@@ -33,12 +33,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.departmentRepository = departmentRepository;
         this.educationRepository = educationRepository;
     }
-    @Override
-    public EmployeeDTO addEmployee(AddEmployeeDTO addEmployeeDTO) {
-        Employee employee = employeeRepository.save(mapToNewEmployee(addEmployeeDTO));
-      return reMap(employee);
-    }
 
+    //get all employees
     @Override
     public List<EmployeeDTO> getAllEmployees() {
         return employeeRepository.findAll().stream()
@@ -46,11 +42,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    //add new employee
     @Override
-    public void removeEmployee(long id) {
-        employeeRepository.deleteById(id);
+    public EmployeeDTO addEmployee(AddEmployeeDTO addEmployeeDTO) {
+        Employee employee = employeeRepository.save(mapToNewEmployee(addEmployeeDTO));
+      return reMap(employee);
     }
 
+    //get employee by id
     @Override
     public EmployeeDTO getEmployeeByID(long id) {
         Employee employee = employeeRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
@@ -58,10 +57,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         return mapToEmployeeDTO(employee);
     }
 
+    //edit employee
     @Override
     public void editEmployee(EmployeeDTO employeeDTO) {
 
         employeeRepository.save(mapToExistEmployee(employeeDTO));
+    }
+
+    //delete employee
+    @Override
+    public void removeEmployee(long id) {
+        employeeRepository.deleteById(id);
     }
 
     public EmployeeDTO mapToEmployeeDTO(Employee employee) {
