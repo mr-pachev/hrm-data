@@ -26,7 +26,7 @@ public interface DepartmentService {
     //delete department
     void removeDepartment(long id);
 
-    //get all department employees
+    //get all employees from current department
     List<EmployeeDTO> allDepartmentEmployees(long id);
 
     //get all employees names
@@ -35,6 +35,6 @@ public interface DepartmentService {
     //add current employee in current department
     void addEmployee(DepartmentEmployeeDTO departmentEmployeeDTO, long idDep);
 
-    //delete employee in current department
+    //delete employee from current department
     void removeEmployee(long idEm, long idDep);
 }

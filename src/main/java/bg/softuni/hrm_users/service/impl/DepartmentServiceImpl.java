@@ -32,7 +32,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.mapper = mapper;
     }
 
-    //all department names
+    //get all department names
     @Override
     public List<String> getAllDepartmentNames() {
         return departmentRepository.findAll().stream()
@@ -40,7 +40,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .collect(Collectors.toList());
     }
 
-    //all departments
+    //get all departments
     @Override
     public List<DepartmentDTO> getAllDepartments() {
         List<Department> allDepartments = departmentRepository.findAll();
@@ -54,7 +54,13 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentDTOS;
     }
 
-    //add department
+    //check is exist department by name
+    @Override
+    public boolean isExistDepartment(String name) {
+        return departmentRepository.existsByDepartmentName(name);
+    }
+
+    //add new department
     @Override
     public void addDepartment(AddDepartmentDTO addDepartmentDTO) {
         Department newDepartment = new Department();
@@ -65,12 +71,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         newDepartment.setManager(manager);
 
         departmentRepository.save(newDepartment);
-    }
-
-    //check is exist department by name
-    @Override
-    public boolean isExistDepartment(String name) {
-        return departmentRepository.existsByDepartmentName(name);
     }
 
     //get department by id
@@ -128,7 +128,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentRepository.delete(departmentForRemove);
     }
 
-    //all employees from current department
+    //get all employees from current department
     @Override
     public List<EmployeeDTO> allDepartmentEmployees(long id) {
         Department department = departmentRepository.findById(id);
@@ -137,7 +137,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return EmployeeMapperUtil.mapToEmployeeDTOS(departmentEmployees);
     }
 
-    //all employee names from current department
+    //get all employees names
     @Override
     public List<DepartmentEmployeeDTO> allEmployeesNames() {
         List<Employee> employees = employeeRepository.findAll();
@@ -157,6 +157,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentEmployeeDTOS;
     }
 
+    //add current employee in current department
     @Override
     public void addEmployee(DepartmentEmployeeDTO departmentEmployeeDTO, long idDep) {
         Department department = departmentRepository.findById(idDep);
