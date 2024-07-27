@@ -6,13 +6,30 @@ import java.util.List;
 
 public interface ProjectService {
 
-    void creatProject(AddProjectDTO projectDTO);
+    //get all projects
     List<ProjectDTO> getAllProjectsDTOS();
+
+    //add new project
+    void creatProject(AddProjectDTO projectDTO);
+
+    //get project by id
     ProjectDTO getProjectById(long id);
-    void removeEmployee(long idEm, long idPr);
-    void removeProject(long id);
-    List<EmployeeDTO> allProjectEmployees(long id);
-    List<ProjectEmployeeDTO> allEmployeesNames();
+
+    //edit project
     void editProject(ProjectDTO projectDTO);
+
+    //delete project
+    void removeProject(long id);
+
+    //get all employees from current project
+    List<EmployeeDTO> allProjectEmployees(long id);
+
+    //get all employees names
+    List<ProjectEmployeeDTO> allEmployeesNames();
+
+    //add current employee in current project
     void addEmployee(ProjectEmployeeDTO projectEmployeeDTO, long idPr);
+
+    //delete current employee from current project
+    void removeEmployee(long idEm, long idPr);
 }
