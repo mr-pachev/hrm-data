@@ -17,7 +17,6 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-
     //get all projects
     @GetMapping()
     public ResponseEntity<List<ProjectDTO>> getAllProjects(){
@@ -26,32 +25,7 @@ public class ProjectController {
         return ResponseEntity.ok(projectDTOS);
     }
 
-
-    //get project by id
-    @GetMapping("/{id}")
-    public ResponseEntity<ProjectDTO> findProjectById(@PathVariable("id") long id){
-        ProjectDTO projectDTO = projectService.getProjectById(id);
-
-        return ResponseEntity.ok(projectDTO);
-    }
-
-    //get employees names from current project
-    @GetMapping("/all-employees")
-    public ResponseEntity<List<ProjectEmployeeDTO>> getAllEmployees(){
-        List<ProjectEmployeeDTO> employees = projectService.allEmployeesNames();
-
-        return ResponseEntity.ok(employees);
-    }
-
-    //get employees from current project
-    @GetMapping("/employees/{id}")
-    public ResponseEntity<List<EmployeeDTO>> getAllProjectEmployees(@PathVariable("id") long id){
-        List<EmployeeDTO> employeeDTOS = projectService.allProjectEmployees(id);
-
-        return ResponseEntity.ok(employeeDTOS);
-    }
-
-    //creat project
+    //add new project
     @PostMapping()
     public ResponseEntity<Void> createProject(
             @RequestBody AddProjectDTO addProjectDTO
@@ -68,6 +42,14 @@ public class ProjectController {
                 .build();
     }
 
+    //get project by id
+    @GetMapping("/{id}")
+    public ResponseEntity<ProjectDTO> findProjectById(@PathVariable("id") long id){
+        ProjectDTO projectDTO = projectService.getProjectById(id);
+
+        return ResponseEntity.ok(projectDTO);
+    }
+
     //edit project
     @PostMapping("/edit")
     public ResponseEntity<ProjectDTO> editProject(
@@ -78,7 +60,33 @@ public class ProjectController {
         return ResponseEntity.ok().build();
     }
 
-    //add employee in current project
+    //delete project
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProject(@PathVariable("id") Long id){
+        projectService.removeProject(id);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
+    //get all employees names
+    @GetMapping("/all-employees")
+    public ResponseEntity<List<ProjectEmployeeDTO>> getAllEmployees(){
+        List<ProjectEmployeeDTO> employees = projectService.allEmployeesNames();
+
+        return ResponseEntity.ok(employees);
+    }
+
+    //get employees from current project
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<List<EmployeeDTO>> getAllProjectEmployees(@PathVariable("id") long id){
+        List<EmployeeDTO> employeeDTOS = projectService.allProjectEmployees(id);
+
+        return ResponseEntity.ok(employeeDTOS);
+    }
+
+    //add current employee in current project
     @PostMapping("/add-employee/{idPr}")
     public ResponseEntity<Void> addEmployee(@PathVariable("idPr") Long idPr,
                                             @RequestBody ProjectEmployeeDTO projectEmployeeDTO
@@ -93,16 +101,6 @@ public class ProjectController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable("idEm") Long idEm,
                                                @PathVariable("idPr")Long idPr){
         projectService.removeEmployee(idEm, idPr);
-
-        return ResponseEntity
-                .noContent()
-                .build();
-    }
-
-    //delete project
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProject(@PathVariable("id") Long id){
-        projectService.removeProject(id);
 
         return ResponseEntity
                 .noContent()
