@@ -31,6 +31,7 @@ public class PositionServiceImpl implements PositionService {
         this.mapper = mapper;
     }
 
+    //get all positions names
     @Override
     public List<String> getAllPositionName() {
         ;
@@ -39,6 +40,7 @@ public class PositionServiceImpl implements PositionService {
                 .collect(Collectors.toList());
     }
 
+    //get all positions
     @Override
     public List<PositionDTO> getAllPositionsDTOS() {
         List<Position> allPositions = positionRepository.findAll();
@@ -52,21 +54,7 @@ public class PositionServiceImpl implements PositionService {
         return positionsDTOS;
     }
 
-    @Override
-    public List<EmployeeDTO> allPositionEmployees(long id) {
-        Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
-        List<Employee> employees = employeeRepository.findAllByPosition(position);
-
-        return EmployeeMapperUtil.mapToEmployeeDTOS(employees);
-    }
-
-    @Override
-    public PositionDTO getPositionById(long id) {
-        Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
-
-        return mapper.map(position, PositionDTO.class);
-    }
-
+    //add new position
     @Override
     public void addNewPosition(AddPositionDTO addPositionDTO) {
         Position position = mapper.map(addPositionDTO, Position.class);
@@ -74,6 +62,15 @@ public class PositionServiceImpl implements PositionService {
         positionRepository.save(position);
     }
 
+    //get position by id
+    @Override
+    public PositionDTO getPositionById(long id) {
+        Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+
+        return mapper.map(position, PositionDTO.class);
+    }
+
+    //edit position
     @Override
     public void editPosition(PositionDTO positionDTO) {
         Position position = mapper.map(positionDTO, Position.class);
@@ -83,6 +80,7 @@ public class PositionServiceImpl implements PositionService {
         positionRepository.save(position);
     }
 
+    //delete position
     @Override
     public void removePosition(long id) {
         Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
@@ -91,6 +89,16 @@ public class PositionServiceImpl implements PositionService {
         positionRepository.deleteById(id);
     }
 
+    //get all employees from current position
+    @Override
+    public List<EmployeeDTO> allPositionEmployees(long id) {
+        Position position = positionRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        List<Employee> employees = employeeRepository.findAllByPosition(position);
+
+        return EmployeeMapperUtil.mapToEmployeeDTOS(employees);
+    }
+
+    //add current employee in current position
     @Override
     public void addEmployee(PositionEmployeesDTO positionEmployeesDTO, long idPos) {
         Position position = positionRepository.findById(idPos).orElseThrow(ObjectNotFoundException::new);
@@ -118,6 +126,7 @@ public class PositionServiceImpl implements PositionService {
         positionRepository.save(position);
     }
 
+    //delete current employee from current position
     @Override
     public void removeEmployee(long idEm, long idPos) {
 
