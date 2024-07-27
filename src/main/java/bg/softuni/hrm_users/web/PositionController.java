@@ -16,6 +16,7 @@ public class PositionController {
         this.positionService = positionService;
     }
 
+    //get all positions names
     @GetMapping("/all-positions")
     public ResponseEntity<List<String>> getAllPositionName(){
         List<String> positionNames = positionService.getAllPositionName();
@@ -23,6 +24,7 @@ public class PositionController {
         return ResponseEntity.ok(positionNames);
     }
 
+    //get all positions
     @GetMapping()
     public ResponseEntity<List<PositionDTO>> getAllPositionsInDTOS(){
         List<PositionDTO> positionsDTOS = positionService.getAllPositionsDTOS();
@@ -30,20 +32,7 @@ public class PositionController {
         return ResponseEntity.ok(positionsDTOS);
     }
 
-    @GetMapping("/all-employees/{id}")
-    public ResponseEntity<List<EmployeeDTO>> getAllPositionEmployeesDTOS(@PathVariable("id") long id){
-        List<EmployeeDTO> employeeDTOS = positionService.allPositionEmployees(id);
-
-        return ResponseEntity.ok(employeeDTOS);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<PositionDTO> findPositionById(@PathVariable("id") long id){
-        PositionDTO positionDTO = positionService.getPositionById(id);
-
-        return ResponseEntity.ok(positionDTO);
-    }
-
+    //add new position
     @PostMapping()
     public ResponseEntity<Void> addPosition(@RequestBody AddPositionDTO addPositionDTO
     ){
@@ -52,6 +41,15 @@ public class PositionController {
         return ResponseEntity.ok().build();
     }
 
+    //get position by id
+    @GetMapping("/{id}")
+    public ResponseEntity<PositionDTO> findPositionById(@PathVariable("id") long id){
+        PositionDTO positionDTO = positionService.getPositionById(id);
+
+        return ResponseEntity.ok(positionDTO);
+    }
+
+    //edit position
     @PostMapping("/edit")
     public ResponseEntity<PositionDTO> editPosition(
             @RequestBody PositionDTO positionDTO
@@ -61,6 +59,7 @@ public class PositionController {
         return ResponseEntity.ok().build();
     }
 
+    //delete position
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePosition(@PathVariable("id") Long id){
         positionService.removePosition(id);
@@ -70,6 +69,15 @@ public class PositionController {
                 .build();
     }
 
+    //get all employees from current position
+    @GetMapping("/all-employees/{id}")
+    public ResponseEntity<List<EmployeeDTO>> getAllPositionEmployeesDTOS(@PathVariable("id") long id){
+        List<EmployeeDTO> employeeDTOS = positionService.allPositionEmployees(id);
+
+        return ResponseEntity.ok(employeeDTOS);
+    }
+
+    //add current employee in current position
     @PostMapping("/add-employee/{idPos}")
     public ResponseEntity<Void> addEmployee(@PathVariable("idPos") Long idPos,
                                             @RequestBody PositionEmployeesDTO positionEmployeesDTO
@@ -79,6 +87,7 @@ public class PositionController {
         return ResponseEntity.ok().build();
     }
 
+    //delete current employee from current position
     @DeleteMapping("/employee/{idEm}/{idPos}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable("idEm") Long idEm,
                                                @PathVariable("idPos")Long idPos){
@@ -88,5 +97,4 @@ public class PositionController {
                 .noContent()
                 .build();
     }
-
 }
