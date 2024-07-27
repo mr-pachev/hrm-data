@@ -18,4 +18,5 @@ public interface DepartmentService {
     List<EmployeeDTO> allDepartmentEmployees(long id);
     List<DepartmentEmployeeDTO> allEmployeesNames();
     void addEmployee(DepartmentEmployeeDTO departmentEmployeeDTO, long idDep);
+    void removeEmployee(long idEm, long idDep);
 }

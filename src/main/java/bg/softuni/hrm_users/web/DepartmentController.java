@@ -33,14 +33,7 @@ public class DepartmentController {
     ){
         departmentService.addDepartment(addDepartmentDTO);
 
-        return ResponseEntity
-                .created(
-                        ServletUriComponentsBuilder
-                                .fromCurrentRequest()
-                                .build()
-                                .toUri()
-                )
-                .build();
+        return ResponseEntity.ok().build();
     }
 
     //get department by id
@@ -97,4 +90,15 @@ public class DepartmentController {
         return ResponseEntity.ok().build();
     }
 
+    //delete current employee from current department
+    @DeleteMapping("/employee/{idEm}/{idDep}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable("idEm") Long idEm,
+                                               @PathVariable("idDep")Long idDep){
+
+        departmentService.removeEmployee(idEm, idDep);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
 }

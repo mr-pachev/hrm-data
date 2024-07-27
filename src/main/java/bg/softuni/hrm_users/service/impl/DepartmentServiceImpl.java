@@ -177,6 +177,21 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentRepository.save(department);
     }
 
+    //delete employee from department
+    @Override
+    public void removeEmployee(long idEm, long idDep) {
+        Department department = departmentRepository.findById(idDep);
+        Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
+
+        currentEmployee.setDepartment(departmentRepository.findByDepartmentName("DEFAULT_DEPARTMENT"));
+        employeeRepository.save(currentEmployee);
+
+        List<Employee> departmentEmployees = department.getEmployees();
+        departmentEmployees.remove(currentEmployee);
+
+        departmentRepository.save(department);
+    }
+
 
     private DepartmentDTO mapToDepartmentDTO(Department department) {
         DepartmentDTO departmentDTO = new DepartmentDTO();
