@@ -6,6 +6,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
@@ -13,12 +15,14 @@ import java.time.LocalDate;
 @Table(name = "tasks")
 public class Task extends BaseEntity{
     @NotBlank
+    @Size(min = 3, max = 30)
     private String name;
     @NotBlank
+    @Size(min = 10, max = 255)
     private String description;
-    @NotEmpty
+    @NotNull
     private LocalDate startDate;
-    @NotEmpty
+    @NotNull
     private LocalDate endDate;
     @ManyToOne
     @JoinColumn(name = "employee_id")
