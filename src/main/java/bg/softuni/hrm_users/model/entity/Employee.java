@@ -146,4 +146,14 @@ public class Employee extends BaseEntity{
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
+    @Override
+    public String toString() {
+
+        return firstName +
+                " " +
+                middleName +
+                " " +
+                lastName;
+    }
 }

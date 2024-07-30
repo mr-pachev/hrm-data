@@ -161,9 +161,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         List<String> employees = new ArrayList<>();
         for (Employee employee : projectEmployees) {
-            String employeeFullName = employee.getFirstName() + " " +
-                    employee.getMiddleName() + " " +
-                    employee.getLastName();
+            String employeeFullName = employee.toString();
 
             employees.add(employeeFullName);
         }

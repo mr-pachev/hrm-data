@@ -23,13 +23,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final EmployeeRepository employeeRepository;
     private final ProjectRepository projectRepository;
-    private final ModelMapper mapper;
 
-    public DepartmentServiceImpl(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository, ProjectRepository projectRepository, ModelMapper mapper) {
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository, ProjectRepository projectRepository) {
         this.departmentRepository = departmentRepository;
         this.employeeRepository = employeeRepository;
         this.projectRepository = projectRepository;
-        this.mapper = mapper;
     }
 
     //get all department names
@@ -78,9 +76,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentDTO getDepartmentByID(long id) {
         Department department = departmentRepository.findById(id);
 
-        DepartmentDTO departmentDTO = mapToDepartmentDTO(department);
-
-        return departmentDTO;
+        return mapToDepartmentDTO(department);
     }
 
     //edit department
@@ -181,9 +177,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setProjects(projectRepository.findAllByResponsibleDepartment(department));
 
         departmentDTO.setDepartmentName(department.getDepartmentName());
-        String managerName = department.getManager().getFirstName() + " " +
-                department.getManager().getMiddleName() + " " +
-                department.getManager().getLastName();
+        String managerName = department.getManager().toString();
 
         departmentDTO.setId(department.getId());
         departmentDTO.setDescriptions(department.getDescription());
@@ -191,7 +185,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentDTO.setIdentificationNumber(department.getManager().getIdentificationNumber());
 
         departmentDTO.setEmployees(department.getEmployees().stream()
-                .map(employee -> employee.getFirstName() + " " + employee.getMiddleName() + " " + employee.getLastName())
+                .map(Employee::toString)
                 .collect(Collectors.toList()));
 
         departmentDTO.setProjects(department.getProjects().stream()

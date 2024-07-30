@@ -42,9 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<EmployeeNameDTO> departmentEmployeeDTOS = new ArrayList<>();
         for (Employee employee : employees) {
-            String fullName = employee.getFirstName() + " " +
-                    employee.getMiddleName()  + " " +
-                    employee.getLastName();
+            String fullName = employee.toString();
             EmployeeNameDTO employeeNameDTO = new EmployeeNameDTO();
             employeeNameDTO.setId(employee.getId());
             employeeNameDTO.setFullName(fullName);
