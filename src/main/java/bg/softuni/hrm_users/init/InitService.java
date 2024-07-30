@@ -13,7 +13,6 @@ import java.util.List;
 public class InitService implements CommandLineRunner {
     private final EducationRepository educationRepository;
 
-
     public InitService(EducationRepository educationRepository) {
         this.educationRepository = educationRepository;
     }
