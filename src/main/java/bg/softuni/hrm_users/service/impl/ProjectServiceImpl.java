@@ -72,6 +72,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     //delete project
     @Override
+    @Transactional
     public void removeProject(long id) {
         List<Employee> projectEmployees = projectRepository.findEmployeesByProjectId(id);
         Project project = projectRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
@@ -127,6 +128,8 @@ public class ProjectServiceImpl implements ProjectService {
         Employee currentEmployee = employeeRepository.findById(idEm).orElseThrow(ObjectNotFoundException::new);
 
         project.removeEmployee(currentEmployee);
+        currentEmployee.removeProject(project);
+
 
         projectRepository.save(project);
         employeeRepository.save(currentEmployee);
