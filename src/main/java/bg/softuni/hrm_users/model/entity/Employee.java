@@ -45,11 +45,11 @@ public class Employee extends BaseEntity{
 
     @OneToMany(mappedBy = "employee")
     private List<Task> tasks;
-
-    public void removeProject(Project project) {
-        this.projects.remove(project);
-        project.getEmployees().remove(this);
-    }
+//
+//    public void removeProject(Project project) {
+//        this.projects.remove(project);
+//        project.getEmployees().remove(this);
+//    }
 
     public String getFirstName() {
         return firstName;
