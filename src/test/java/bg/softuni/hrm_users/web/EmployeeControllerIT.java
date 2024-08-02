@@ -79,9 +79,9 @@ public class EmployeeControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                   {
-                    "firstName": "John",
-                    "middleName": "Michael",
-                    "lastName": "Doe",
+                    "firstName": "Ivan",
+                    "middleName": "Petkov",
+                    "lastName": "Pachev",
                     "identificationNumber": "123456789",
                     "age": 30,
                     "startDate": "2024-07-12",
@@ -104,9 +104,9 @@ public class EmployeeControllerIT {
 
         Employee createdEmployee = createdEmployeeOpt.get();
 
-        Assertions.assertEquals("John", createdEmployee.getFirstName());
-        Assertions.assertEquals("Michael", createdEmployee.getMiddleName());
-        Assertions.assertEquals("Doe", createdEmployee.getLastName());
+        Assertions.assertEquals("Ivan", createdEmployee.getFirstName());
+        Assertions.assertEquals("Petkov", createdEmployee.getMiddleName());
+        Assertions.assertEquals("Pachev", createdEmployee.getLastName());
         Assertions.assertEquals("123456789", createdEmployee.getIdentificationNumber());
         Assertions.assertEquals(30, createdEmployee.getAge());
         Assertions.assertEquals("2024-07-12", createdEmployee.getStartDate().toString());
