@@ -6,4 +6,6 @@ For more effective presentation and easier testing of the application, a data.sq
 
 Upon the initial start of the Rest Server, the tables are created. After that, the application is stopped, and the setting sql -> init -> mode: always in application.yaml is changed. On the next start of the application, the tables are loaded with the data from the data.sql file. After loading, the application is stopped, and the setting sql -> init -> mode: always is changed back to never.
 
+To register a new user, the employee's personal identification number from the database is required. The first registered user has administrator rights. For example, use the following social security number: 1208117890.
+
 The application is ready for work and testing.
