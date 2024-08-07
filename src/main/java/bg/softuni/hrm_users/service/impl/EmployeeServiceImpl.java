@@ -4,11 +4,9 @@ import bg.softuni.hrm_users.model.dto.AddEmployeeDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeDTO;
 import bg.softuni.hrm_users.model.dto.EmployeeNameDTO;
 import bg.softuni.hrm_users.model.entity.Employee;
+import bg.softuni.hrm_users.model.entity.Task;
 import bg.softuni.hrm_users.model.enums.EducationName;
-import bg.softuni.hrm_users.repository.DepartmentRepository;
-import bg.softuni.hrm_users.repository.EducationRepository;
-import bg.softuni.hrm_users.repository.EmployeeRepository;
-import bg.softuni.hrm_users.repository.PositionRepository;
+import bg.softuni.hrm_users.repository.*;
 import bg.softuni.hrm_users.service.EmployeeService;
 import bg.softuni.hrm_users.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -25,13 +23,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final PositionRepository positionRepository;
     private final DepartmentRepository departmentRepository;
+    private final TaskRepository taskRepository;
     private final EducationRepository educationRepository;
 
-    public EmployeeServiceImpl(ModelMapper mapper, EmployeeRepository employeeRepository, PositionRepository positionRepository, DepartmentRepository departmentRepository, EducationRepository educationRepository) {
+    public EmployeeServiceImpl(ModelMapper mapper, EmployeeRepository employeeRepository, PositionRepository positionRepository, DepartmentRepository departmentRepository, TaskRepository taskRepository, EducationRepository educationRepository) {
         this.mapper = mapper;
         this.employeeRepository = employeeRepository;
         this.positionRepository = positionRepository;
         this.departmentRepository = departmentRepository;
+        this.taskRepository = taskRepository;
         this.educationRepository = educationRepository;
     }
 
@@ -86,6 +86,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     //delete employee
     @Override
     public void removeEmployee(long id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
+        List<Task> tasks = taskRepository.findAllByEmployee(employee);
+
+        if (!tasks.isEmpty()){
+            for (Task task : tasks) {
+                task.setEmployee(employeeRepository.findByFirstNameAndMiddleNameAndLastName("DEFAULT_EMP", "DEFAULT_EMP", "DEFAULT_EMP")
+                        .orElseThrow(ObjectNotFoundException::new));
+
+                taskRepository.save(task);
+            }
+        }
+
         employeeRepository.deleteById(id);
     }
 
